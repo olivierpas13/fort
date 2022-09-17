@@ -1,27 +1,27 @@
-import StyledRegistration from './StyledRegistration';
 import { Form, Field } from 'react-final-form';
 import Link from 'next/link';
+import StyledLogin from './StyledLogin';
 
-const Registration = () => {
+const Login = () => {
+
   const onSubmit = async values => {
     console.log(values);
-    // await sleep(300);
-    // window.alert(JSON.stringify(values, 0, 2));
   };
+
   return (
-    <StyledRegistration>
+    <StyledLogin>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ name: '', email: '', password: '' }}
+        initialValues={{ email: '', password: '' }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <div>
-              <label>Name</label>
+              <label>Email</label>
               <Field
-                name="name"
+                name="email"
                 component="input"
                 type="text"
-                placeholder="Name"
+                placeholder="Email"
               />
             </div>
             <div>
@@ -33,30 +33,17 @@ const Registration = () => {
                 placeholder="Password"
               />
             </div>
-            <div>
-              <label>Email</label>
-              <Field
-                name="email"
-                component="input"
-                type="text"
-                placeholder="Email"
-              />
-            </div>
             <div className="buttons">
               <button type="submit" disabled={submitting || pristine}>
-              Create Your Account
+              Log in
               </button>
             </div>
-            <h3>Do you have an account already?</h3>
-            <Link href="/login" >
-              <a>Log in</a>
-            </Link>
             <h3>Sign in as a <Link href='/demo' ><a>Demo User</a></Link> </h3>
           </form>
         )}
       />
-    </StyledRegistration>
+    </StyledLogin>
   );
 };
 
-export default Registration;
+export default Login;

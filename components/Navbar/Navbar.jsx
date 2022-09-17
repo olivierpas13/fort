@@ -7,7 +7,11 @@ const Navbar = () => {
     <StyledNavbar>
       <div className="logo">
         <Image width={70} height={70} src="/favicon.webp" alt="Fort Logo" />
-        <h1>Fort</h1>
+        <Link href={'/'} >
+          <a>
+            <h1>Fort</h1>
+          </a>
+        </Link>
       </div>
       <div className="options">
         <ul>

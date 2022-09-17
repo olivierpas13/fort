@@ -1,10 +1,11 @@
-import styled from 'styled-components';
 import { mainColor } from '../../generalStyledComponents/Pallete';
+import styled from 'styled-components';
 import Section from '../../generalStyledComponents/Section';
 
-const StyledRegistration = styled(Section)`
+const StyledLogin = styled(Section)`
     display: flex;
     justify-content: center;
+    align-items: center;
     background: url('/bg2.jpg')  no-repeat left top;
     background-position: fill;
     padding: 3%;
@@ -14,7 +15,7 @@ const StyledRegistration = styled(Section)`
         flex-direction: column;
         border: 1px solid black;
         border-radius: 15px;
-        height: auto;
+        height: 60% !important;
         margin-top: 5%;
         background-color: #eee;
         padding: 2% 5%;
@@ -51,7 +52,7 @@ const StyledRegistration = styled(Section)`
                 box-shadow: 1px 1px 1px black;
 
                 &:last-child{
-                    margin-bottom: 5%;
+                    margin-bottom: 15%;
                 }
 
                 &:hover{
@@ -68,7 +69,7 @@ const StyledRegistration = styled(Section)`
 
         h3{
             text-align: center;
-            padding-top: 3%;
+            padding-bottom: 3%;
             font-weight: 500;
         }
         a{
@@ -86,7 +87,6 @@ const StyledRegistration = styled(Section)`
             }
         }
     }
-
 `;
 
-export default StyledRegistration;
+export default StyledLogin;
