@@ -1,8 +1,11 @@
 import RegistrationComponent from '../components/Registration/Registration';
+import Landing from '../layouts/landing';
 
 const Registration = () => {
   return (
-    <RegistrationComponent/>
+    <Landing>
+      <RegistrationComponent/>
+    </Landing>
   );
 };
 

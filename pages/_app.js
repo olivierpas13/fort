@@ -1,7 +1,9 @@
 import '../styles/globals.css';
 import Head from 'next/head';
-import Navbar from '../components/Navbar/Navbar';
+import { wrapper } from '../store/store';
+
 function MyApp({ Component, pageProps }) {
+  console.log(Component.name);
   return (
     <>
       <Head>
@@ -9,10 +11,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content="Bug/error tracking software" />
         <link rel="icon" href="/favicon1.webp" />
       </Head>
-      <Navbar/>
       <Component {...pageProps} />
     </>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

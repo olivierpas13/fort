@@ -1,8 +1,11 @@
 import DemoComponent from '../components/Demo/Demo';
+import Landing from '../layouts/landing';
 
 const Demo = () => {
   return (
-    <DemoComponent/>
+    <Landing>
+      <DemoComponent/>
+    </Landing>
   );
 };
 

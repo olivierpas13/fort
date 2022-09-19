@@ -1,8 +1,11 @@
 import LoginComponent from '../components/Login/Login';
+import Landing from '../layouts/landing';
 
 const Login = () => {
   return (
-    <LoginComponent/>
+    <Landing>
+      <LoginComponent/>
+    </Landing>
   );
 };
 

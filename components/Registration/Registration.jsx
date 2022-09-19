@@ -1,10 +1,19 @@
-import StyledRegistration from './StyledRegistration';
 import { Form, Field } from 'react-final-form';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+
+import { createUser } from '../../services/users';
+import StyledRegistration from './StyledRegistration';
+import { setUser } from '../../store/userSlice';
 
 const Registration = () => {
+
+  const dispatch = useDispatch();
+
   const onSubmit = async values => {
-    console.log(values);
+    const user = await createUser(values);
+    dispatch(setUser(user));
+
     // await sleep(300);
     // window.alert(JSON.stringify(values, 0, 2));
   };
