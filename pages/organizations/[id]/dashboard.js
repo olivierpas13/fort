@@ -4,7 +4,7 @@ const Dashboard = () => {
   return (
     <Sidebar>
       <h1>
-            Dashboard
+          Dashboard
       </h1>
     </Sidebar>
   );

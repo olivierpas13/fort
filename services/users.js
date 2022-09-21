@@ -1,8 +1,7 @@
-// import axios from 'axios';
-// import { BASE_URL } from '../utils/config';
+import axios from 'axios';
 
-// const baseUrl = `${BASE_URL}/api/users`;
+const baseUrl = `${process.env.BACKEND_URL}/api/users`;
 
-// export const createUser = async (credentials) => {
-//   return await axios.post(baseUrl, credentials);
-// };
+export const createUser = async (credentials) => {
+  return await axios.post(baseUrl, credentials);
+};

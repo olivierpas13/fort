@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <Landing>
       <Presentation/>
-      <h1>{process.env.PORT}</h1>
     </Landing>
   );
 }

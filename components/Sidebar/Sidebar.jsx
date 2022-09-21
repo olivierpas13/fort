@@ -2,42 +2,32 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 // import LetteredAvatar from 'react-lettered-avatar';
 import { mainColor } from '../../generalStyledComponents/Pallete';
-import { useRouter } from 'next/router';
-
+import { useSelector } from 'react-redux';
 import StyledSidebar from './StyledSidebar';
 
+const ProfilePictureWithLetters = dynamic(
+  () => import('react-lettered-avatar'),
+  { ssr: false }
+);
 
 const Sidebar = () => {
 
-  const DynamicComponentWithNoSSR = dynamic(
-    () => import('react-lettered-avatar'),
-    { ssr: false }
-  );
+  const user = useSelector(state => state.user.user);
 
-  const organization = {
-    name: 'fortOrg'
-  };
+  console.log(user);
 
-
-  const base_url = `/organizations/${organization.name}`;
-  const router = useRouter();
-  console.log(router);
+  const base_url = `/organizations/${user.organization}`;
   return (
     <StyledSidebar>
       <div className='profile'>
         <div className='profile-picture' >
           <span>
-            <DynamicComponentWithNoSSR
+            <ProfilePictureWithLetters
               name="Lettered Avatar"
               backgroundColor = {mainColor}
               size={35}
               radius={5}
             />
-            {/* <img
-              id='preview'
-              src={createImageFromInitials(50, 'olivier paspuel', '#ccc')}
-              alt='profile-pic'
-            /> */}
           </span>
         </div>
         <div className='profile-name' ></div>

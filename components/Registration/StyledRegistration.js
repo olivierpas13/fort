@@ -14,10 +14,10 @@ const StyledRegistration = styled(Section)`
         flex-direction: column;
         border: 1px solid black;
         border-radius: 15px;
-        height: auto;
+        height: 90%;
         margin-top: 5%;
         background-color: #eee;
-        padding: 2% 5%;
+        padding: 1% 5%;
         label {
             width: 100%;
             flex: 1;

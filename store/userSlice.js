@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getUserFromLocal } from '../utils/localStorage';
 // import { AppState } from './store';
 // import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState = {
-  authState: {},
+  user: null,
+  token: null
 };
 
 export const userSlice = createSlice({
@@ -13,6 +15,9 @@ export const userSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    setToken(state, action) {
+      state.token = action.payload;
+    }
   },
 });
 

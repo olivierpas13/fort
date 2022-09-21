@@ -6,7 +6,8 @@ const nextConfig = {
     styledComponents: true
   },
   env:{
-    PORT: 'veleta'
+    // BACKEND_URL: 'http://localhost:3003'
+    BACKEND_URL: 'https://fort-backend.vercel.app'
   }
 };
 

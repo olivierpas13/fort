@@ -5,25 +5,55 @@ import { useDispatch } from 'react-redux';
 import { createUser } from '../../services/users';
 import StyledRegistration from './StyledRegistration';
 import { setUser } from '../../store/userSlice';
+import { postUserToLocal } from '../../utils/localStorage';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const Registration = () => {
 
+
+  const { data: session, status } = useSession();
+  console.log(session);
+  console.log(status);
+
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onSubmit = async values => {
     const user = await createUser(values);
-    dispatch(setUser(user));
+    console.log(user);
+    if(user){
+      dispatch(setUser(user.data));
+      postUserToLocal(user);
+      router.replace(`/organizations/${user.organization}`);
+    }
 
-    // await sleep(300);
-    // window.alert(JSON.stringify(values, 0, 2));
   };
   return (
     <StyledRegistration>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ name: '', email: '', password: '' }}
+        initialValues={{ name: '', email: '', password: '', organization: '' }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
+            <div>
+              <label>Email</label>
+              <Field
+                name="email"
+                component="input"
+                type="text"
+                placeholder="Email"
+              />
+            </div>
+            <div>
+              <label>Organization</label>
+              <Field
+                name="organization"
+                component="input"
+                type="text"
+                placeholder="Organization"
+              />
+            </div>
             <div>
               <label>Name</label>
               <Field
@@ -40,15 +70,6 @@ const Registration = () => {
                 component="input"
                 type="text"
                 placeholder="Password"
-              />
-            </div>
-            <div>
-              <label>Email</label>
-              <Field
-                name="email"
-                component="input"
-                type="text"
-                placeholder="Email"
               />
             </div>
             <div className="buttons">
