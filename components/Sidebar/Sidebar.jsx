@@ -14,9 +14,10 @@ const Sidebar = () => {
 
   const user = useSelector(state => state.user.user);
 
+
   console.log(user);
 
-  const base_url = `/organizations/${user.organization}`;
+  const base_url = `/organizations/${user?.organization}`;
   return (
     <StyledSidebar>
       <div className='profile'>
