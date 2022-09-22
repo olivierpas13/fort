@@ -1,9 +1,12 @@
+import { useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 
 import { createUser } from '../../services/users';
 import StyledRegistration from './StyledRegistration';
+import CreateOrganization from '../CreateOrganization/CreateOrganization';
+
 import { setUser } from '../../store/userSlice';
 import { postUserToLocal } from '../../utils/localStorage';
 import { useRouter } from 'next/router';
@@ -11,13 +14,13 @@ import { useSession } from 'next-auth/react';
 
 const Registration = () => {
 
-
+  const router = useRouter();
   const { data: session, status } = useSession();
+
   console.log(session);
   console.log(status);
 
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const onSubmit = async values => {
     const user = await createUser(values);
@@ -27,10 +30,11 @@ const Registration = () => {
       postUserToLocal(user);
       router.replace(`/organizations/${user.organization}`);
     }
-
   };
+
   return (
     <StyledRegistration>
+      {session && !session.organization && <CreateOrganization/>}
       <Form
         onSubmit={onSubmit}
         initialValues={{ name: '', email: '', password: '', organization: '' }}
