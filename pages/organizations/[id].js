@@ -9,7 +9,7 @@ const Organization = () => {
 
   return (
     <Sidebar>
-      <h1>{router.asPath}</h1>
+      <h1>ola</h1>
     </Sidebar>
   );
 };

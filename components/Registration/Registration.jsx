@@ -17,6 +17,10 @@ const Registration = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
+  if(session && session.user.organization){
+    router.push(`/organizations/${session.user.organization}`);
+  }
+
   console.log(session);
   console.log(status);
 
@@ -34,7 +38,7 @@ const Registration = () => {
 
   return (
     <StyledRegistration>
-      {session && !session.organization && <CreateOrganization/>}
+      {session && !session.user.organization && <CreateOrganization/>}
       <Form
         onSubmit={onSubmit}
         initialValues={{ name: '', email: '', password: '', organization: '' }}
