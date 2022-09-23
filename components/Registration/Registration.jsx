@@ -18,11 +18,8 @@ const Registration = () => {
   const { data: session, status } = useSession();
 
   if(session && session.user.organization){
-    router.push(`/organizations/${session.user.organization}`);
+    router.push(`/organizations/${session.user.organization}/dashboard`);
   }
-
-  console.log(session);
-  console.log(status);
 
   const dispatch = useDispatch();
 
@@ -32,7 +29,7 @@ const Registration = () => {
     if(user){
       dispatch(setUser(user.data));
       postUserToLocal(user);
-      router.replace(`/organizations/${user.organization}`);
+      router.replace(`/organizations/${user.organization}/dashboard`);
     }
   };
 

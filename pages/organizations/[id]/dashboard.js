@@ -1,12 +1,12 @@
-import Sidebar from '../../../components/Sidebar/Sidebar';
+import AppLayout from 'layouts/app';
 
 const Dashboard = () => {
   return (
-    <Sidebar>
+    <AppLayout>
       <h1>
           Dashboard
       </h1>
-    </Sidebar>
+    </AppLayout>
   );
 };
 

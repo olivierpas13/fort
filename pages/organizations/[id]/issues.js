@@ -1,8 +1,10 @@
+import AppLayout from 'layouts/app';
+
 const Issues = () => {
   return (
-    <div>
+    <AppLayout>
       <h1>Issues</h1>
-    </div>
+    </AppLayout>
   );
 };
 
