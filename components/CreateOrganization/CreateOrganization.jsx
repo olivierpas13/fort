@@ -1,6 +1,8 @@
-import { BasicModal } from '../../generalStyledComponents/Modal';
+// import { BasicModal } from '../../generalStyledComponents/Modal';
+import { updateUserOrganization } from 'services/users';
 import StyledCreateOrganization from './StyledCreateOrganization';
 import { BasicButton } from '../../generalStyledComponents/Button';
+import { reloadSession } from 'utils/session';
 
 import { useSession } from 'next-auth/react';
 import { Form, Field } from 'react-final-form';
@@ -19,12 +21,8 @@ const CreateOrganization = () => {
       userId: session.user?.id,
       organization: values.organization
     };
-    // if(user){
-    //   dispatch(setUser(user.data));
-    //   postUserToLocal(user);
-    //   router.replace(`/organizations/${user.organization}`);
-    // }
-    console.log(obj);
+    await updateUserOrganization(obj);
+    reloadSession();
   };
 
 

@@ -1,9 +1,10 @@
 import AppLayout from 'layouts/app';
+import IssuesComponent from 'components/Issues/Issues.jsx';
 
 const Issues = () => {
   return (
     <AppLayout>
-      <h1>Issues</h1>
+      <IssuesComponent/>
     </AppLayout>
   );
 };

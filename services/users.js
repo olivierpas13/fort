@@ -7,8 +7,5 @@ export const createUser = async (credentials) => {
 };
 
 export const updateUserOrganization = async (data) => {
-
-
-
-  return await axios.put(baseUrl, );
+  return await axios.patch(`${baseUrl}/${data.userId}`, data);
 };
