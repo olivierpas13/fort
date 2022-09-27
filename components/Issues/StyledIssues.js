@@ -25,6 +25,10 @@ const StyledIssues = styled.section`
         height: 20em;
         width: 100%;
     }
+    .issues-creation{
+        height: 5em;
+        width: 5em;
+    }
 `;
 
 export default StyledIssues;

@@ -1,4 +1,4 @@
-// import { BasicModal } from '../../generalStyledComponents/Modal';
+import { useState } from 'react';
 import { updateUserOrganization } from 'services/users';
 import StyledCreateOrganization from './StyledCreateOrganization';
 import { BasicButton } from '../../generalStyledComponents/Button';
@@ -9,8 +9,6 @@ import { Form, Field } from 'react-final-form';
 
 
 const CreateOrganization = () => {
-
-  //   const dispatch = useDispatch();
 
   const { data: session } = useSession();
 

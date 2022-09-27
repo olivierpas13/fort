@@ -8,7 +8,7 @@ const IssuesTable = () => {
   const [esolvedIssues, setResolvedIssues] = useState([]);
   const [ignoredIssues, setIgnoredIssues] = useState([]);
 
-  const pageSize = 10;
+  const pageSize = 5;
 
   const People = [
     {

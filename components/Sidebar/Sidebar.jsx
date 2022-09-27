@@ -5,6 +5,8 @@ import { mainColor } from '../../generalStyledComponents/Pallete';
 import { useSelector } from 'react-redux';
 import StyledSidebar from './StyledSidebar';
 import { useRouter } from 'next/router';
+import { getCurrentOrganization } from 'utils/getData';
+
 
 const ProfilePictureWithLetters = dynamic(
   () => import('react-lettered-avatar'),
@@ -14,7 +16,7 @@ const ProfilePictureWithLetters = dynamic(
 const Sidebar = () => {
 
   const { data: session } = useSession();
-  console.log(session);
+  getCurrentOrganization().then((res) => console.log(res));
   // const router = useRouter();
   // if(!session){
   //   router.push('/registration');

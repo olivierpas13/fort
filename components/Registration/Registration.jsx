@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
@@ -32,6 +31,8 @@ const Registration = () => {
       router.replace(`/organizations/${user.organization}/dashboard`);
     }
   };
+
+
 
   return (
     <StyledRegistration>

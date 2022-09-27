@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { BasicModal } from 'generalStyledComponents/Modal';
 
-const Organization = styled(BasicModal)`
-
+const StyledCreateIssue = styled(BasicModal)`
 `;
 
-export default Organization;
+export default StyledCreateIssue;
