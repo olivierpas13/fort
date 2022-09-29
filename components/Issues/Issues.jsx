@@ -15,7 +15,6 @@ const Issues = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(handleClose);
 
   return (
     <StyledIssues>

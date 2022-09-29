@@ -4,12 +4,14 @@ import Section from '../../generalStyledComponents/Section';
 
 const StyledSidebar = styled.nav`
     display: flex;
+    position: fixed;
     flex-direction: column;
     width: 14em;
     background-color: black;
     color: white;
     height: 100vh;
     padding: 1.5em;
+    box-shadow: 2px 0 3px 1px #555;
     .profile{
         display: flex;
         flex-direction: row;
@@ -27,7 +29,6 @@ const StyledSidebar = styled.nav`
         display: flex;
         flex-direction: column;
         & .dashboard, .projects, .issues, .roles{
-            /* flex-direction: column; */
             margin-bottom: 0.5em;
             padding: 0.3em;
             text-align:left;

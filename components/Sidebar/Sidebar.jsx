@@ -2,11 +2,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { mainColor } from '../../generalStyledComponents/Pallete';
-import { useSelector } from 'react-redux';
 import StyledSidebar from './StyledSidebar';
-import { useRouter } from 'next/router';
-import { getCurrentOrganization } from 'utils/getData';
-
 
 const ProfilePictureWithLetters = dynamic(
   () => import('react-lettered-avatar'),
@@ -16,11 +12,7 @@ const ProfilePictureWithLetters = dynamic(
 const Sidebar = () => {
 
   const { data: session } = useSession();
-  getCurrentOrganization().then((res) => console.log(res));
-  // const router = useRouter();
-  // if(!session){
-  //   router.push('/registration');
-  // }
+
   if(session){
     const { user } = session;
     const base_url = `/organizations/${user.organization}`;

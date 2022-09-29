@@ -6,6 +6,6 @@ export const getAllOrganizaitions = async () => {
   return await axios.get(baseUrl);
 };
 
-export const getSingleOrganization = async (id) => {
-  return await axios.get(`${baseUrl}/${id}`);
+export const getSingleOrganization = async (name) => {
+  return await axios.get(`${baseUrl}/${name}`);
 };

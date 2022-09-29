@@ -1,33 +1,58 @@
+import { useEffect, useState } from 'react';
+import { Form, Field } from 'react-final-form';
+import { useSession } from 'next-auth/react';
+
 import StyledCreateIssue from './StyledCreateIssue';
 import { BasicButton } from 'generalStyledComponents/Button';
-
-import { Form, Field } from 'react-final-form';
+import { createIssue } from 'services/issues';
+import { getSingleOrganization } from 'services/organizations';
 
 const CreateIssue = ({ handleClose }) => {
+  const { data: session } = useSession();
+  const [organizationUsers, setOrganizationUsers] = useState([]);
+  const [organizationProjects, setOrganizationProjects] = useState([]);
 
-  // const [modalVisibility, setModalVisibility] = useState('');
+  useEffect(() => {
+    const fetchData = async() => {
+      const { data: organization } = await getSingleOrganization(session?.user?.organization);
+      setOrganizationProjects(organization.projects);
+      setOrganizationUsers(organization.users);
+    };
+    fetchData();
+  }, [session?.user?.organization]);
 
-  // const closeModal = (event) => {
-  //   handleClose();
-  // };
 
-  const onSubmit = async values => {
-    const user = await createUser(values);
-    console.log(user);
-    if(user){
-      dispatch(setUser(user.data));
-      postUserToLocal(user);
-      router.replace(`/organizations/${user.organization}/dashboard`);
-    }
+  const onSubmit = async (values) => {
+
+    const issueObject = {
+      ...values,
+      submitter: session.user?.id,
+      organization: session.user?.organization
+    };
+
+    // console.log(issueObject);
+    await createIssue(issueObject);
+    // const user = await createUser(values);
+    // console.log(user);
+    // if (user) {
+    //   dispatch(setUser(user.data));
+    //   postUserToLocal(user);
+    //   router.replace(`/organizations/${user.organization}/dashboard`);
+    // }
   };
 
   return (
-    <StyledCreateIssue
-      onClick={() => handleClose()}>
-      <div className='modal-content' onClick={e => {e.stopPropagation();}}>
+    <StyledCreateIssue onClick={() => handleClose()}>
+      <div
+        className="modal-content"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <h1>probandi</h1>
         <Form
           onSubmit={onSubmit}
-          initialValues={{ organization: '' }}
+          initialValues={{ title: '', description: '', priority: 'low', assignedDev: '' }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
               <h2>{'New Issue Creation'}</h2>
@@ -64,28 +89,36 @@ const CreateIssue = ({ handleClose }) => {
               </div>
               <div>
                 <label>Assigned Developer</label>
-                <Field
-                  name="organization"
-                  component="input"
-                  type="text"
-                  placeholder="Organization"
-                />
+                <Field name="assignedDev" component="select">
+                  {organizationUsers.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
+                </Field>
               </div>
               <div>
-                <label>Organization</label>
+                <label>Project</label>
                 <Field
-                  name="organization"
-                  component="input"
-                  type="text"
-                  placeholder="Organization"
-                />
+                  name="project"
+                  component="select"
+                >
+                  {organizationProjects.map(project => <option key={project.id} value={project.id}>{project.name}</option>)}
+                </Field>
               </div>
-              <BasicButton onClick={() => handleSubmit()} disabled={submitting || pristine}>
-                Join
+              <BasicButton
+                onClick={() => handleSubmit()}
+                disabled={submitting || pristine}
+              >
+                Create Issue
               </BasicButton>
-            </form>)
-          }/>
-      </div>    </StyledCreateIssue>
+              <BasicButton
+                onClick={() => form.reset()}
+                disabled={submitting || pristine}
+              >
+                Clear All
+              </BasicButton>
+            </form>
+          )}
+        />
+      </div>{' '}
+    </StyledCreateIssue>
   );
 };
 

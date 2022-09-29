@@ -30,6 +30,9 @@ export const BasicModal = styled.div`
             height: 90%;
             margin-top: 5%;
             padding: 1% 5%;
+            input{
+                padding: 0.2em;
+            }
     }
     }
 `;

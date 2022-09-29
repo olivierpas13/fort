@@ -5,12 +5,13 @@ import { useRouter } from 'next/router';
 
 import StyledProject from './StyledProject';
 import { BasicButton } from 'generalStyledComponents/Button';
+import { useSession } from 'next-auth/react';
 
-const Project = () => {
+const Project = ({ project }) => {
+
+  const { data: session } = useSession();
 
   const router = useRouter();
-
-  console.log();
 
   const data = [
     {
@@ -48,16 +49,18 @@ const Project = () => {
     },
   ];
 
+  const projectUrl = `${router.basePath}/organizations/${session.user.organization}/project/${project.name}/issues`;
+
   return (
     <StyledProject>
-      <Link href={`${router.asPath}/project-name`}>
+      <Link href={projectUrl}>
         <a>
           <div className='project-name'>
             <Image
               width={60}
               height={60}
               src="/javascriptLogo.png" alt="" />
-            <h2>Project name</h2>
+            <h2>{project.name}</h2>
           </div>
         </a>
       </Link>
@@ -104,7 +107,7 @@ const Project = () => {
         />
       </div>
       <div className='project-buttons'>
-        <BasicButton>
+        <BasicButton onClick={() => router.replace(projectUrl)} >
             See more
         </BasicButton>
       </div>

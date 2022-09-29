@@ -6,10 +6,6 @@ import GithubProvider from 'next-auth/providers/github';
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    // async organization({ session, token, user }){
-    //   session.user.organization = user.organization; // Add role value to user object so it is passed along with session
-    //   return session;
-    // },
     async jwt({ token, user, account, profile, isNewUser }) {
       user && (token.user = user);
       return token;
