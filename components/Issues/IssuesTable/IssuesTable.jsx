@@ -14,26 +14,39 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
   const [allIssues, setAllIssues] = useState([]);
   const [issues, setIssues] = useState([]);
 
+  const fetchIssues = async () => {
+    if(session?.user?.organization){
+      const { data } = await getAllOrganizationIssues(session.user.organization);
+      setAllIssues(data);
+    }
+  };
+
   useEffect(() => {
     if(
       allIssues.length < 1
       && session?.user?.organization
       || modalVisibility === false ){
-      const fetchIssues = async () => {
-        const { data } = await getAllOrganizationIssues(session?.user?.organization);
-        setAllIssues(data);
-        setIssues(data);
-      };
       fetchIssues();
+      // if(currentFilter !== 'all'){
+      //   setIssues(allIssues.filter(issue => issue.ticketStatus === currentFilter));
+      // }
+      // if(currentFilter === 'all'){
+      //   setIssues(allIssues);
+      // }
     }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalVisibility, session?.user?.organization]);
+  // }, []);
+
+
+  useEffect(() => {
     if(currentFilter !== 'all'){
       setIssues(allIssues.filter(issue => issue.ticketStatus === currentFilter));
     }
     if(currentFilter === 'all'){
       setIssues(allIssues);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalVisibility, currentFilter, session?.user?.organization]);
+  }, [allIssues, currentFilter]);
 
   const pageSize = 5;
 
