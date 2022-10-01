@@ -29,8 +29,6 @@ const Projects = () => {
       }
     };
     fetchProjects();
-    // .then(res => setProjects(res.data.projects));
-    console.log(projects);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisibility, session?.user?.organization]);
 

@@ -7,14 +7,17 @@ import { BasicButton } from 'generalStyledComponents/Button';
 
 const Issues = () => {
 
-  const [currentFilter, setCurrentFilter] = useState('unresolved');
+  const [currentFilter, setCurrentFilter] = useState('all');
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log(open);
 
   return (
     <StyledIssues>
@@ -23,33 +26,33 @@ const Issues = () => {
         <ul>
           <li>
             <button
-              style={{ borderBottom: currentFilter === 'unresolved'? '2px solid #aaa' : '' }}
-              onClick={() => (setCurrentFilter('unresolved'))}
+              style={{ borderBottom: currentFilter === 'all'? '2px solid #aaa' : 'none' }}
+              onClick={() => (setCurrentFilter('all'))}
             >
-              All Unresolved
+              All Issues
             </button>
           </li>
           <li>
             <button
-              style={{ borderBottom: currentFilter === 'review'? '2px solid #aaa' : '' }}
-              onClick={() => (setCurrentFilter('review'))}
+              style={{ borderBottom: currentFilter === 'open'? '2px solid #aaa' : 'none' }}
+              onClick={() => (setCurrentFilter('open'))}
             >
-              For Review
+              All Open Issues
             </button>
           </li>
           <li>
             <button
-              style={{ borderBottom: currentFilter === 'ignored'? '2px solid #aaa' : '' }}
-              onClick={() => (setCurrentFilter('ignored'))}
+              style={{ borderBottom: currentFilter === 'closed'? '2px solid #aaa' : 'none' }}
+              onClick={() => (setCurrentFilter('closed'))}
             >
-              Ignored
+              All Closed Issues
             </button>
           </li>
         </ul>
         <hr className='separator'/>
       </div>
       <div className='issues-table' >
-        <IssuesTable/>
+        <IssuesTable modalVisibility={open} currentFilter={currentFilter} />
       </div>
       <div className='issues-creation'>
         {open && <CreateIssue open={open} handleClose={handleClose}/>}

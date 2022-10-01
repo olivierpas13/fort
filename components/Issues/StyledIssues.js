@@ -17,13 +17,13 @@ const StyledIssues = styled.section`
         }
     }
     .separator{
-        width: 100%;
+        width: 110%;
         border: 1px solid #ccc;
     }
 
     .issues-table{
-        height: 20em;
-        width: 100%;
+        height: 100%;
+        width: 110%;
     }
     .issues-creation{
         height: 5em;

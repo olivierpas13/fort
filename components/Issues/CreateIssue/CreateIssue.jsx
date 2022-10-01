@@ -31,7 +31,10 @@ const CreateIssue = ({ handleClose }) => {
     };
 
     // console.log(issueObject);
-    await createIssue(issueObject);
+    const createdIssue = await createIssue(issueObject);
+    if(createdIssue){
+      handleClose();
+    }
     // const user = await createUser(values);
     // console.log(user);
     // if (user) {
@@ -49,7 +52,6 @@ const CreateIssue = ({ handleClose }) => {
           e.stopPropagation();
         }}
       >
-        <h1>probandi</h1>
         <Form
           onSubmit={onSubmit}
           initialValues={{ title: '', description: '', priority: 'low', assignedDev: '' }}
