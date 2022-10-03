@@ -10,7 +10,7 @@ const DataPie = ({ data }) => {
     return `Sector ${entry.title} has value ${entry.value}`;
   };
 
-  const dataForPie = data.map((entry, i) => {
+  const dataForPie = data?.map((entry, i) => {
     if (hovered === i) {
       return {
         ...entry,
@@ -40,7 +40,7 @@ const DataPie = ({ data }) => {
         //   console.log('CLICK', { event, index });
         // // setSelected(index === selected ? undefined : index);
         // }}
-        labelStyle={{ 'fontSize': '0.6em', 'fontWeight': '500' }}
+        labelStyle={{ 'fontSize': '0.4em', 'fontWeight': '500' }}
         label={({ dataEntry }) => dataEntry.title}
         data={dataForPie}
       />

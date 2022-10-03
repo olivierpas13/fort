@@ -47,13 +47,13 @@ const StyledDashboard = styled.section`
         display: flex;
         width: 110%;
         justify-content: center;
-        .priority-table, .type-table, .status-table{
+        .priority-table, .project-issues-table, .status-table{
+            border-radius: 1em;
             display: flex;
             flex-direction: column;
             /* width: 100%; */
             justify-content: center;
             border: 1px solid #bbb;
-            border-radius: 0.5em;
             box-shadow: 0px 0px 1px black;
             margin-right: 1em;
             align-items: center;

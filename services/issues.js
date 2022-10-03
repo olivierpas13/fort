@@ -9,3 +9,7 @@ export const createIssue = async (data) => {
 export const getAllOrganizationIssues = async (organization) => {
   return await axios.get(`${baseUrl}/${organization}`);
 };
+
+export const getAllOrganizationStats = async (organization) => {
+  return await axios.get(`${baseUrl}/${organization}/stats`);
+};

@@ -5,39 +5,39 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { getSingleOrganization } from 'services/organizations';
 import StyledDashboard from './StyledDashboard';
 import DataPie from 'components/DataOrganization/DataPie';
+import { getAllOrganizationStats } from 'services/issues';
+import { organizeStats } from 'utils/organizeStats';
 
 const Dashboard = () => {
   const session = useSession();
   const [organization, setOrganization] = useState({});
   const [project, setProject] = useState({});
-  const [age, setAge] = useState('10');
+  const [issuesStats, setIssuesStats] = useState({});
 
   const handleChange = (event) => {
     setProject(event.target.value);
   };
 
   useEffect(() => {
-    if (session.status === 'authenticated') {
+    if (session.status === 'authenticated' && Object.entries(organization).length === 0) {
       const {
         data: { user },
       } = session;
       getSingleOrganization(user.organization).then((res) =>
         setOrganization(res.data)
       );
+      getAllOrganizationStats(user.organization).then((res) =>
+        setIssuesStats(organizeStats(res.data))
+      );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   if (session.status === 'authenticated') {
     const { data: { user } } = session;
 
-    const data = [
-      { title: 'One', value: 10, color: '#1A933B', key: 'Test' },
-      { title: 'Two', value: 15, color: '#666' },
-      { title: 'Three', value: 20, color: '#888' },
-    ];
-
     return (
-      <StyledDashboard>
+      Object.entries(issuesStats).length !== 0 && Object.entries(issuesStats).length !== 0 && <StyledDashboard>
         <section className="dashboard-title">
           <h2 className='organization-title' >{user.organization}</h2>
         </section>
@@ -67,7 +67,7 @@ const Dashboard = () => {
               <h3>Projects</h3>
             </div>
             <div className="stat">
-              <h3>5</h3>
+              <h3>{organization?.projects?.length}</h3>
             </div>
           </article>
           <article className="issues">
@@ -75,7 +75,7 @@ const Dashboard = () => {
               <h3>Issues</h3>
             </div>
             <div className="stat">
-              <h3>15</h3>
+              <h3>{issuesStats?.statusStats[0]?.value + issuesStats?.statusStats[1]?.value}</h3>
             </div>
           </article>
           <article className="users">
@@ -83,7 +83,7 @@ const Dashboard = () => {
               <h3>Users</h3>
             </div>
             <div className="stat">
-              <h3>3</h3>
+              <h3>{organization.users.length}</h3>
             </div>
           </article>
         </section>
@@ -93,22 +93,22 @@ const Dashboard = () => {
               <h2>Issues by priority</h2>
             </div>
             <div className='table-graph'>
-              <DataPie data={data} />
+              <DataPie data={issuesStats.priorityStats} />
             </div>          </article>
-          <article className='type-table' >
-            <div className='table-title' >
-              <h2>Issues by type</h2>
-            </div>
-            <div className='table-graph'>
-              <DataPie data={data} />
-            </div>
-          </article>
           <article className='status-table' >
             <div className='table-title' >
               <h2>Issues by status</h2>
             </div>
             <div className='table-graph'>
-              <DataPie data={data} />
+              <DataPie data={issuesStats.statusStats} />
+            </div>
+          </article>
+          <article className='project-issues-table' >
+            <div className='table-title' >
+              <h2>Issues by project</h2>
+            </div>
+            <div className='table-graph'>
+              <DataPie data={issuesStats.projectsIssuesStats} />
             </div>
           </article>
         </section>
