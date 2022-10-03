@@ -1,11 +1,10 @@
 import AppLayout from 'layouts/app';
+import DashboardComponent from 'components/Dashboard/Dashboard';
 
 const Dashboard = () => {
   return (
     <AppLayout>
-      <h1>
-          Dashboard
-      </h1>
+      <DashboardComponent/>
     </AppLayout>
   );
 };

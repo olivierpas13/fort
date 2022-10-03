@@ -23,7 +23,9 @@ specifiers:
   react-dom: 18.2.0
   react-final-form: ^6.5.9
   react-lettered-avatar: ^1.0.2
+  react-minimal-pie-chart: ^8.3.0
   react-redux: ^8.0.2
+  react-tooltip: ^4.2.21
   styled-components: ^5.3.5
   tailwindcss: ^3.1.8
 
@@ -48,7 +50,9 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-final-form: 6.5.9_b76tjmhm4bpbaoui6lan2hu4pm
   react-lettered-avatar: 1.0.2_biqbaboplfbrettd7655fr4n2y
+  react-minimal-pie-chart: 8.3.0_biqbaboplfbrettd7655fr4n2y
   react-redux: 8.0.2_biqbaboplfbrettd7655fr4n2y
+  react-tooltip: 4.2.21_biqbaboplfbrettd7655fr4n2y
   styled-components: 5.3.5_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.1.8_postcss@8.4.16
 
@@ -4361,6 +4365,16 @@ packages:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
     dev: false
 
+  /react-minimal-pie-chart/8.3.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-ICot74PGPrmGkaie8O+5tRZ5ivukYQ3fRN5ppvw1J01sIa5tHO9cekakyv9nXUkxKifiKn/FQu5uWHfSD39mRQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18
+      react-dom: ^16.8.0 || ^17.0.0 || ^18
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /react-redux/8.0.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-nBwiscMw3NoP59NFCXFf02f8xdo+vSHT/uZ1ldDwF7XaTpzm+Phk97VT4urYBl5TYAPNVaFm12UHAEyzkpNzRA==}
     peerDependencies:
@@ -4390,6 +4404,19 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-is: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
+  /react-tooltip/4.2.21_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-zSLprMymBDowknr0KVDiJ05IjZn9mQhhg4PRsqln0OZtURAJ1snt1xi5daZfagsh6vfsziZrc9pErPTDY1ACig==}
+    engines: {npm: '>=6.13'}
+    peerDependencies:
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      uuid: 7.0.3
     dev: false
 
   /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:
@@ -5264,6 +5291,11 @@ packages:
     resolution: {integrity: sha512-HShAsny+zS2TZfaXxD9tYj4HQGlBezXZMZuM/S5PKLLoZkShZiGk9o5CzukI1LVHZvjdvZ2Sj1aW/Ndn2NB/HQ==}
     dependencies:
       inherits: 2.0.3
+    dev: false
+
+  /uuid/7.0.3:
+    resolution: {integrity: sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==}
+    hasBin: true
     dev: false
 
   /uuid/8.3.2:

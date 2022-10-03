@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const AppPage = styled.section`
-    width: 100vw;
+    width: 98vw;
     display: flex;
     background-color: #fbfbfc;
     & .page-content{
