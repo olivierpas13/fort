@@ -4,7 +4,7 @@ export const getUserFromLocal = () => {
 };
 
 export const postUserToLocal = (user) => {
-  return window.localStorage.setItem('fortCurrentUser', JSON.stringify(user.data));
+  return window.localStorage.setItem('fortCurrentUser', JSON.stringify(user));
 };
 
 export const getTokenFromLocal = () => {

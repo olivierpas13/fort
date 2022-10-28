@@ -50,7 +50,7 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
 
   const pageSize = 5;
 
-  const colums = [
+  const columns = [
     // {
     //   field: 'actions',
     //   type: 'actions',
@@ -116,7 +116,7 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
   return (
     <DataGrid
       rows={issues}
-      columns={colums}
+      columns={columns}
       components={{ Toolbar: GridToolbar }}
       disableColumnSelector
       disableSelectionOnClick

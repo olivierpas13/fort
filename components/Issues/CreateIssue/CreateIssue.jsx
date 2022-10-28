@@ -23,7 +23,8 @@ const CreateIssue = ({ handleClose }) => {
 
 
   const onSubmit = async (values) => {
-
+    console.log(organizationUsers);
+    console.log(values);
     const issueObject = {
       ...values,
       submitter: session.user?.id,
@@ -54,9 +55,10 @@ const CreateIssue = ({ handleClose }) => {
       >
         <Form
           onSubmit={onSubmit}
-          initialValues={{ title: '', description: '', priority: 'low', assignedDev: '' }}
+          initialValues={{ title: '', description: '', priority: 'low' }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
+              {console.log(values.assignedDev)}
               <h2>{'New Issue Creation'}</h2>
               <div>
                 <label>Title</label>
@@ -92,6 +94,7 @@ const CreateIssue = ({ handleClose }) => {
               <div>
                 <label>Assigned Developer</label>
                 <Field name="assignedDev" component="select">
+                  <option/>
                   {organizationUsers.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
                 </Field>
               </div>
@@ -101,6 +104,7 @@ const CreateIssue = ({ handleClose }) => {
                   name="project"
                   component="select"
                 >
+                  <option/>
                   {organizationProjects.map(project => <option key={project.id} value={project.id}>{project.name}</option>)}
                 </Field>
               </div>

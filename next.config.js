@@ -7,7 +7,8 @@ const nextConfig = {
   },
 
   env:{
-    BACKEND_URL: 'http://localhost:3003'
+    BACKEND_URL: 'http://localhost:3003',
+    FRONTEND_URL: 'http://localhost:3000'
     // BACKEND_URL: 'https://fort-backend.vercel.app'
   }
 };

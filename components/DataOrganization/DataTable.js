@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { getAllOrganizationIssues } from 'services/issues';
 
 
-const IssuesTable = ({ data, columns, pageSize }) => {
+const DataTable = ({ data, columns, pageSize }) => {
 
   const [rows, setRows] = useState([]);
   const [dataColumns, setDataColumns] = useState([]);
@@ -33,4 +33,4 @@ const IssuesTable = ({ data, columns, pageSize }) => {
   );
 };
 
-export default IssuesTable;
+export default DataTable;

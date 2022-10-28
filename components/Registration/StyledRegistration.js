@@ -8,16 +8,24 @@ const StyledRegistration = styled(Section)`
     background: url('/bg2.jpg')  no-repeat left top;
     background-position: fill;
     padding: 3%;
-    height: 100vh;
+    height: 100%;
     form{
         display: flex;
+        background-color: red;
         flex-direction: column;
+        justify-content: center !important;
         border: 1px solid black;
         border-radius: 15px;
-        height: 90%;
+        height: 100%;
         margin-top: 5%;
         background-color: #eee;
         padding: 1% 5%;
+        div{
+            display: flex;
+        flex-direction: column;
+        justify-content: center !important;
+        
+        }
         label {
             width: 100%;
             flex: 1;
@@ -33,6 +41,7 @@ const StyledRegistration = styled(Section)`
             flex: 1;
             padding: 1%;
             border-radius: 5px;
+            overflow: hidden;
         }
         .buttons{
             display: flex;
