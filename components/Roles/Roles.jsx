@@ -1,13 +1,27 @@
+import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+
 import StyledRoles from './StyledRoles';
 import DataTable from 'components/DataOrganization/DataTable';
+import { getSingleOrganization } from 'services/organizations';
 
 const Roles = () => {
 
-  const data = [
-    {
-      id: 1,
-    }
-  ];
+  const { data: session } = useSession();
+  const [organizationUsers, setOrganizationUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const { data: organization } = await getSingleOrganization(session?.user?.organization);
+      setOrganizationUsers(organization?.users);
+    };
+    fetchData();
+  }, [session?.user?.organization]);
+  // const data = [
+  //   {
+  //     id: 1,
+  //   }
+  // ];
 
   const columns = [
     // {
@@ -44,7 +58,7 @@ const Roles = () => {
     <StyledRoles>
       <h1>Roles</h1>
       <div className=''>
-        <DataTable data={data} columns={columns} pageSize={5}/>
+        <DataTable data={organizationUsers} columns={columns} pageSize={5}/>
       </div>
     </StyledRoles>
   );

@@ -56,9 +56,8 @@ const CreateIssue = ({ handleClose }) => {
         <Form
           onSubmit={onSubmit}
           initialValues={{ title: '', description: '', priority: 'low' }}
-          render={({ handleSubmit, form, submitting, pristine, values }) => (
+          render={({ handleSubmit, form, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>
-              {console.log(values.assignedDev)}
               <h2>{'New Issue Creation'}</h2>
               <div>
                 <label>Title</label>

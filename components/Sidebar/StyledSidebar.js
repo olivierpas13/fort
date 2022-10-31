@@ -32,7 +32,7 @@ const StyledSidebar = styled.nav`
             margin-bottom: 0.5em;
             padding: 0.3em;
             text-align:left;
-            & a{
+            & a, button{
                 display: flex;
                 text-align: left;
                 align-items: center;
@@ -49,6 +49,23 @@ const StyledSidebar = styled.nav`
                     background-color: red;
                 }
             }
+        }
+        .invitation{
+            /* background-color: white; */
+            button{
+             margin: 0 auto;
+             margin-top: 30px;
+             width: auto;
+             text-transform: capitalize;
+             padding: 5px 20px ;
+             border: 1px solid white;
+                /* color: black !important; */
+            }
+            /* border: 1px solid #bbb;
+            border-radius: 4px;
+            &:hover{
+                transform: scale(1,1) !important;
+            } */
         }
     }
 `;
