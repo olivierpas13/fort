@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { getAllOrganizationIssues } from 'services/issues';
 
 
-const DataTable = ({ data, columns, pageSize }) => {
+const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRowUpdateError }) => {
 
   const [rows, setRows] = useState([]);
   const [dataColumns, setDataColumns] = useState([]);
@@ -26,9 +26,12 @@ const DataTable = ({ data, columns, pageSize }) => {
       disableColumnSelector
       disableSelectionOnClick
       autoHeight
+      experimentalFeatures={{ newEditingApi: true }}
+      processRowUpdate={processRowUpdate}
+      onProcessRowUpdateError={handleProcessRowUpdateError}
       pageSize={pageSize}
       rowsPerPageOptions={[pageSize]}
-      getRowId={(row) => row.id}
+      getRowId={(row) => row?.id}
     />
   );
 };
