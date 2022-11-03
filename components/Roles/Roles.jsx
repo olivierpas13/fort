@@ -1,31 +1,22 @@
-import { Select } from '@mui/material';
+import  Select  from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { useGridApiContext } from '@mui/x-data-grid';
+
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useCallback } from 'react';
-import { useGridApiContext } from '@mui/x-data-grid';
 
 import StyledRoles from './StyledRoles';
 import DataTable from 'components/DataOrganization/DataTable';
-import { getSingleOrganization } from 'services/organizations';
 import { getAllOrganizationUsers, updateUserRole } from 'services/users';
 
 const Roles = () => {
-
-
-  const useFakeMutation = () => {
-    return useCallback(
-      (user) => {
-        updateUserRole({ id: user.id, value: user.role });
-      }, []);
-  };
-
-
 
   function SelectEditInputCell(props) {
     const { id, value, field } = props;
     const apiRef = useGridApiContext();
 
     const handleChange = async (event) => {
-      // console.log(id, field, event.target.value);
       await apiRef.current.setEditCellValue({ id, field, value: event.target.value });
       apiRef.current.stopCellEditMode({ id, field });
     };
@@ -41,6 +32,7 @@ const Roles = () => {
       >
         <option>Developer</option>
         <option>Submitter</option>
+        <option>Project Manager</option>
         <option>Admin</option>
       </Select>
     );
@@ -50,13 +42,10 @@ const Roles = () => {
     return <SelectEditInputCell {...params} />;
   };
 
-
-
-
-
-
   const { data: session } = useSession();
+
   const [organizationUsers, setOrganizationUsers] = useState([]);
+
   useEffect(() => {
     const fetchData = async() => {
       if(session?.user?.organization){
@@ -67,32 +56,7 @@ const Roles = () => {
     fetchData();
   }, [session?.user?.organization]);
 
-  const rows = [
-
-    {
-      id: 2,
-      name: 'Danail',
-      role: 'UX Designer',
-    },
-    {
-      id: 3,
-      name: 'Matheus',
-      role: 'Front-end Developer',
-    },
-  ];
-
-
   const columns = [
-    // {
-    //   field: 'actions',
-    //   type: 'actions',
-    //   sortable: false,
-    //   headerName: '',
-    //   width: 50,
-    //   // renderCell: (params) => (
-    //   //   <>{<Checkbox size="small" checked={findPerson(params.row)} onChange={() => handleChange(params.row)} />}</>
-    //   // )
-    // },
     {
       field: 'id',
       headerName: 'ID',
@@ -111,28 +75,23 @@ const Roles = () => {
       flex: 1,
       renderEditCell: renderSelectEditInputCell,
       editable: true,
-      // renderCell: (params) => <>{params.value}</>
     },
   ];
 
-  const mutateRow = useFakeMutation();
 
   const [snackbar, setSnackbar] = useState(null);
   const handleCloseSnackbar = () => setSnackbar(null);
 
   const processRowUpdate = useCallback(
     async (newRow) => {
-      // console.log(newRow);
-      // Make the HTTP request to save in the backend
-      const response = await mutateRow(newRow);
-      // console.log({ backend: response });
-      setSnackbar({ children: 'User successfully saved', severity: 'success' });
-      // apiRef.current.stopCellEditMode({ id: newRow.id, field: 'role' });
-      return response;
+      const response = await updateUserRole({ id: newRow.id, value: newRow.role });
+      setSnackbar({ children: 'Role successfully updated', severity: 'success' });
+      return response.data;
     },
     [],
   );
   const handleProcessRowUpdateError = useCallback((error) => {
+    console.log(error);
     setSnackbar({ children: error.message, severity: 'error' });
   }, []);
 
@@ -148,6 +107,16 @@ const Roles = () => {
           pageSize={5}
         />
       </div>
+      {!!snackbar && (
+        <Snackbar
+          open
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          onClose={handleCloseSnackbar}
+          autoHideDuration={6000}
+        >
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
     </StyledRoles>
   );
 };

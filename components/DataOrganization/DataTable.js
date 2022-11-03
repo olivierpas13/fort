@@ -7,6 +7,8 @@ import { getAllOrganizationIssues } from 'services/issues';
 
 const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRowUpdateError }) => {
 
+  console.log(data);
+
   const [rows, setRows] = useState([]);
   const [dataColumns, setDataColumns] = useState([]);
 
@@ -20,7 +22,7 @@ const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRow
 
   return (
     <DataGrid
-      rows={rows}
+      rows={data}
       columns={dataColumns}
       components={{ Toolbar: GridToolbar }}
       disableColumnSelector
@@ -31,7 +33,10 @@ const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRow
       onProcessRowUpdateError={handleProcessRowUpdateError}
       pageSize={pageSize}
       rowsPerPageOptions={[pageSize]}
-      getRowId={(row) => row?.id}
+      getRowId={(row) => {
+        console.log(row);
+        return row?.name;
+      }}
     />
   );
 };
