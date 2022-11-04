@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 
 const StyledDashboard = styled.section`
+
+    .no-data-found-message{
+        display: flex;
+        padding: 3em;
+        justify-content: center;
+        font-size: 2em;
+        font-weight: 500;
+    }
+
     .dashboard-title{
         /* background-color: red; */
         margin-bottom: 1em;

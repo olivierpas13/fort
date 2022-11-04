@@ -9,15 +9,6 @@ import { SessionProvider } from 'next-auth/react';
 // import { setUser } from '../store/userSlice';
 
 function MyApp({ Component, pageProps:{ session, ...pageProps } }) {
-
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   console.log(getUserFromLocal());
-  //   if(getUserFromLocal()){
-  //     dispatch(setUser(getUserFromLocal()));
-  //   }
-  // }, [dispatch]);
   return (
     <SessionProvider session={session} >
       <Head>

@@ -8,6 +8,5 @@ export const postUserToLocal = (user) => {
 };
 
 export const getTokenFromLocal = () => {
-  console.log(window.localStorage.getItem('next-auth.csrf-token'));
   return JSON.parse(window.localStorage.getItem('next-auth.session-token'));
 };

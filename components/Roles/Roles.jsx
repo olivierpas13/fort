@@ -61,6 +61,8 @@ const Roles = () => {
       field: 'id',
       headerName: 'ID',
       flex: 1,
+      disableColumnFilter: true,
+      disableColumnMenu: true,
       renderCell: (params) => <>{params.value}</>
     },
     {
@@ -75,6 +77,7 @@ const Roles = () => {
       flex: 1,
       renderEditCell: renderSelectEditInputCell,
       editable: true,
+      renderCell: (params) => <>{params.value?.charAt(0).toUpperCase() + params.value?.slice(1)}</>
     },
   ];
 
@@ -91,13 +94,14 @@ const Roles = () => {
     [],
   );
   const handleProcessRowUpdateError = useCallback((error) => {
-    console.log(error);
     setSnackbar({ children: error.message, severity: 'error' });
   }, []);
 
   return (
     <StyledRoles>
       <h1>Roles</h1>
+      <h2>To change the role of an user double click the role cell or press enter
+         while selecting it and select the new role</h2>
       <div className=''>
         <DataTable
           handleProcessRowUpdateError={handleProcessRowUpdateError}

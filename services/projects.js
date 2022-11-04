@@ -6,6 +6,10 @@ export const createProject = async (data) => {
   return await axios.post(baseUrl, data);
 };
 
-// export const updateUserOrganization = async (data) => {
-//   return await axios.patch(`${baseUrl}/${data.userId}`, data);
-// };
+export const getAllOrganizationProjects = async (organization) => {
+  return await axios.get(`${baseUrl}/organization/${organization}`);
+};
+
+export const getProjectStats = async (project) => {
+  return await axios.get(`${baseUrl}/${project}/stats`);
+};

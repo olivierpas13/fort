@@ -18,14 +18,6 @@ const CreateProject = ({ handleClose }) => {
 
     await createProject(issueObject);
     handleClose();
-    // console.log(issueObject);
-    // const user = await createUser(values);
-    // console.log(user);
-    // if (user) {
-    //   dispatch(setUser(user.data));
-    //   postUserToLocal(user);
-    //   router.replace(`/organizations/${user.organization}/dashboard`);
-    // }
   };
 
   return (

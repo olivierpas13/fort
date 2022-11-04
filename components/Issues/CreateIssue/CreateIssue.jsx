@@ -23,26 +23,16 @@ const CreateIssue = ({ handleClose }) => {
 
 
   const onSubmit = async (values) => {
-    console.log(organizationUsers);
-    console.log(values);
     const issueObject = {
       ...values,
       submitter: session.user?.id,
       organization: session.user?.organization
     };
 
-    // console.log(issueObject);
     const createdIssue = await createIssue(issueObject);
     if(createdIssue){
       handleClose();
     }
-    // const user = await createUser(values);
-    // console.log(user);
-    // if (user) {
-    //   dispatch(setUser(user.data));
-    //   postUserToLocal(user);
-    //   router.replace(`/organizations/${user.organization}/dashboard`);
-    // }
   };
 
   return (

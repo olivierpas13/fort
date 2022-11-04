@@ -1,4 +1,3 @@
-import StyledCreateProject from 'components/Projects/CreateProject/StyledCreateProject';
 
 export const organizeStats = (stats) => {
   const priorityStats = [
@@ -31,21 +30,28 @@ export const organizeStats = (stats) => {
     },
   ];
 
-  const projectsIssuesStats = stats.projectsIssues.map((project) => {
-    if(project.projectIssues !== 0){
-      return{
-        title: project.projectName,
-        value: project.projectIssues,
-        color: '#777'
-      };
-    }
-  }
-  ).filter(stat => stat !== undefined);
+  if(stats?.projectsIssues){
 
+    const projectsIssuesStats = stats.projectsIssues.map((project) => {
+      if(project.projectIssues !== 0){
+        return{
+          title: project.projectName,
+          value: project.projectIssues,
+          color: '#777'
+        };
+      }
+    }
+    ).filter(stat => stat !== undefined);
+    return ({
+      priorityStats,
+      statusStats,
+      projectsIssuesStats
+    });
+  }
   return ({
     priorityStats,
     statusStats,
-    projectsIssuesStats
+    name: stats.projectName,
+    users: stats.users
   });
-
 };

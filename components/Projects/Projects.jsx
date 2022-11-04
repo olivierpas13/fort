@@ -23,7 +23,7 @@ const Projects = () => {
     const fetchProjects = async () => {
 
       const { data: organization } = await getSingleOrganization(session?.user?.organization);
-      console.log(organization);
+
       if(organization?.projects){
         setProjects(organization.projects);
       }

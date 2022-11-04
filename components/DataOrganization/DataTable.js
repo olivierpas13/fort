@@ -1,13 +1,8 @@
-import { Checkbox } from '@mui/material';
-import { DataGrid, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
-import { useSession } from 'next-auth/react';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import { getAllOrganizationIssues } from 'services/issues';
 
 
 const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRowUpdateError }) => {
-
-  console.log(data);
 
   const [rows, setRows] = useState([]);
   const [dataColumns, setDataColumns] = useState([]);
@@ -22,7 +17,7 @@ const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRow
 
   return (
     <DataGrid
-      rows={data}
+      rows={rows}
       columns={dataColumns}
       components={{ Toolbar: GridToolbar }}
       disableColumnSelector
@@ -34,7 +29,6 @@ const DataTable = ({ data, columns, pageSize, processRowUpdate, handleProcessRow
       pageSize={pageSize}
       rowsPerPageOptions={[pageSize]}
       getRowId={(row) => {
-        console.log(row);
         return row?.name;
       }}
     />

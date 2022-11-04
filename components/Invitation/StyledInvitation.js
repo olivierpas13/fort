@@ -2,13 +2,16 @@ import { BasicModal } from 'generalStyledComponents/Modal';
 import styled from 'styled-components';
 
 const StyledInvitation = styled(BasicModal)`
-    /* background-color: red; */
     h2{
-        padding: 1em;
+        padding: 0.5em;
+        font-weight: 500;
+        font-size: 1.5em;
+    }
+    .project-field{
+        margin-bottom: 0.5em;
+        margin-top: 0.8em;
     }
     .code-generated{
-        /* width: 100%; */
-        /* background-color:red; */
         .invitation{
             width: 20em;;
             overflow: scroll;

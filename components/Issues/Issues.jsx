@@ -17,8 +17,6 @@ const Issues = () => {
     setOpen(false);
   };
 
-  console.log(open);
-
   return (
     <StyledIssues>
       <h1>Issues</h1>

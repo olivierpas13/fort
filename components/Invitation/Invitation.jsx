@@ -5,12 +5,14 @@ import { useSession } from 'next-auth/react';
 import StyledInvitation from './StyledInvitation';
 import { BasicButton } from 'generalStyledComponents/Button';
 import { getInvitationCode, getSingleOrganization } from 'services/organizations';
+import { getAllOrganizationProjects } from 'services/projects';
 
 const Invitation = ({ handleClose }) => {
 
   const session = useSession();
 
   const [organization, setOrganization] = useState({});
+  const [projects, setProjects] = useState([]);
   const [invitationCode, setInvitationCode] = useState('');
 
   useEffect(() => {
@@ -25,8 +27,10 @@ const Invitation = ({ handleClose }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
-  if(organization){
-    console.log(organization);
+  if(Object.entries(organization).length !== 0){
+    if(projects.length === 0){
+      getAllOrganizationProjects(organization.id).then(res => setProjects(res.data));
+    }
 
     const onSubmit = async (values) => {
 
@@ -48,7 +52,7 @@ const Invitation = ({ handleClose }) => {
         >
           <Form
             onSubmit={onSubmit}
-            initialValues={{ role: 'submitter' }}
+            initialValues={{ role: 'developer' }}
             render={({ handleSubmit, submitting, values }) => (
               <div>
                 <form onSubmit={handleSubmit}>
@@ -64,6 +68,21 @@ const Invitation = ({ handleClose }) => {
                       <option value="project-manager">Project Manager</option>
                       <option value="administrator">Administrator</option>
                     </Field>
+                    {(values.role !== 'administrator' && values.role !== 'submitter') &&
+                      <>
+                        <br />
+                        <label>Project</label>
+                        <Field
+                          className='project-field'
+                          name='project'
+                          component='select'
+                        >
+                          <option></option>
+                          {projects.map(
+                            project => <option key={project.id} value={project.id} >{project.name}</option>)}
+                        </Field>
+                      </>
+                    }
                   </div>
                   <BasicButton
                     onClick={() => handleSubmit()}

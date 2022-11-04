@@ -14,7 +14,6 @@ const DataPie = ({ data }) => {
     if (hovered === i) {
       return {
         ...entry,
-        // label: entry.value,
         color: 'grey',
       };
     }
@@ -35,11 +34,6 @@ const DataPie = ({ data }) => {
         onMouseOut={() => {
           setHovered(null);
         }}
-        // onClick={(event, index) => {
-        // // action('CLICK')(event, index);
-        //   console.log('CLICK', { event, index });
-        // // setSelected(index === selected ? undefined : index);
-        // }}
         labelStyle={{ 'fontSize': '0.4em', 'fontWeight': '500' }}
         label={({ dataEntry }) => dataEntry.title}
         data={dataForPie}

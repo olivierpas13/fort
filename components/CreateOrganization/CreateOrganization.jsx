@@ -14,8 +14,6 @@ const CreateOrganization = () => {
   const [invitationCodeVisibility, setInvitationCodeVisibility] = useState(false);
 
   const onSubmit = async values => {
-    // const user = await createUser(values);
-    // console.log(user);
     const obj ={
       userId: session.user?.id,
       organization: values.organization

@@ -1,21 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { InputLabel, Select, MenuItem } from '@mui/material';
 
 import { getSingleOrganization } from 'services/organizations';
 import StyledDashboard from './StyledDashboard';
 import DataPie from 'components/DataOrganization/DataPie';
 import { getAllOrganizationStats } from 'services/issues';
 import { organizeStats } from 'utils/organizeStats';
+import { getProjectStats } from 'services/projects';
 
 const Dashboard = () => {
   const session = useSession();
   const [organization, setOrganization] = useState({});
   const [project, setProject] = useState({});
+  const [fetchedProject, setFetchedProject] = useState({});
   const [issuesStats, setIssuesStats] = useState({});
 
   const handleChange = (event) => {
+
     setProject(event.target.value);
+    if(Object.entries(project) !== 0){
+      getProjectStats(event.target.value.id).then(res => setFetchedProject( organizeStats( res.data ) ));
+    }
+
   };
 
   useEffect(() => {
@@ -37,12 +44,8 @@ const Dashboard = () => {
     const { data: { user } } = session;
 
     return (
-      Object.entries(issuesStats).length !== 0 && Object.entries(issuesStats).length !== 0 && <StyledDashboard>
-        <section className="dashboard-title">
-          <h2 className='organization-title' >{user.organization}</h2>
-        </section>
+      <StyledDashboard>
         <div className="select">
-          {/* <FormControl width={100}> */}
           <InputLabel id="project-label">Project</InputLabel>
           <Select
             labelId="project-label"
@@ -52,15 +55,66 @@ const Dashboard = () => {
             onChange={handleChange}
             fullWidth
           >
+            <MenuItem  value={{}}>
+                All Projects
+            </MenuItem>
             {organization?.projects?.map((project) => (
               <MenuItem key={project.id} value={project}>
                 {project.name}
               </MenuItem>
             ))}
-            {/* <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem> */}
           </Select>
         </div>
+        {(Object.entries(project).length !== 0 && Object.entries(fetchedProject).length !== 0) &&
+         <>
+           <section className="dashboard-title">
+             <h2 className='organization-title' >{fetchedProject.name}</h2>
+           </section>
+           <section className="stats">
+             <article className="issues">
+               <div className="title">
+                 <h3>Issues</h3>
+               </div>
+               <div className="stat">
+                 <h3>{fetchedProject?.statusStats[0]?.value + fetchedProject?.statusStats[1]?.value}</h3>
+               </div>
+             </article>
+             <article className="users">
+               <div className="title">
+                 <h3>Users</h3>
+               </div>
+               <div className="stat">
+                 <h3>{fetchedProject.users}</h3>
+               </div>
+             </article>
+           </section>
+           {!((fetchedProject.statusStats.reduce((prev, curr) => prev.value + curr.value )) === 0)?
+             <section className='data-tables' >
+               <article className='priority-table' >
+                 <div className='table-title' >
+                   <h2>Issues by priority</h2>
+                 </div>
+                 <div className='table-graph'>
+                   <DataPie data={fetchedProject.priorityStats} />
+                 </div>          </article>
+               <article className='status-table' >
+                 <div className='table-title' >
+                   <h2>Issues by status</h2>
+                 </div>
+                 <div className='table-graph'>
+                   <DataPie data={fetchedProject.statusStats} />
+                 </div>
+               </article>
+             </section>
+             : Object.entries(project).length !== 0 && <h2 className='no-data-found-message' >Unable to show stats, no data found.</h2>
+           }
+         </>
+        }
+        {( Object.entries(project).length === 0 && Object.entries(issuesStats).length !== 0) &&
+      <>
+        <section className="dashboard-title">
+          <h2 className='organization-title' >{user.organization}</h2>
+        </section>
         <section className="stats">
           <article className="projects">
             <div className="title">
@@ -112,6 +166,8 @@ const Dashboard = () => {
             </div>
           </article>
         </section>
+      </>
+        }
       </StyledDashboard>
     );
   }
