@@ -37,8 +37,10 @@ const Invitation = ({ handleClose }) => {
       const obj = {
         name: organization.name,
         orgCode: organization.orgInvitationCode,
-        role: values.role
+        role: values.role,
+        project: values.project
       };
+
       getInvitationCode(obj).then((res) => setInvitationCode(res.data));
 
     };
@@ -52,7 +54,7 @@ const Invitation = ({ handleClose }) => {
         >
           <Form
             onSubmit={onSubmit}
-            initialValues={{ role: 'developer' }}
+            initialValues={{ role: 'developer', project: '' }}
             render={({ handleSubmit, submitting, values }) => (
               <div>
                 <form onSubmit={handleSubmit}>

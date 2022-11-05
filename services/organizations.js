@@ -11,5 +11,7 @@ export const getSingleOrganization = async (name) => {
 };
 
 export const getInvitationCode = async (obj) => {
-  return await axios.post(`${baseUrl}/${obj.name}/invitation/${obj.role}`, { orgInvitationCode: obj.orgCode });
+  return await axios.post(`${baseUrl}/${obj.name}/invitation/${obj.role}`, {
+    orgInvitationCode: obj.orgCode,
+    project: obj.project });
 };
