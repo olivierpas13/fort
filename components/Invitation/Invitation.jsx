@@ -20,6 +20,7 @@ const Invitation = ({ handleClose }) => {
       const {
         data: { user },
       } = session;
+      console.log(user);
       getSingleOrganization(user.organization).then((res) =>
         setOrganization(res.data)
       );
@@ -34,14 +35,14 @@ const Invitation = ({ handleClose }) => {
 
     const onSubmit = async (values) => {
 
-      const obj = {
+      const user = {
         name: organization.name,
         orgCode: organization.orgInvitationCode,
         role: values.role,
         project: values.project
       };
 
-      getInvitationCode(obj).then((res) => setInvitationCode(res.data));
+      getInvitationCode(user).then((res) => setInvitationCode(res.data));
 
     };
     return (

@@ -10,6 +10,7 @@ import { organizeStats } from 'utils/organizeStats';
 import { getProjectStats } from 'services/projects';
 
 const Dashboard = () => {
+
   const session = useSession();
   const [organization, setOrganization] = useState({});
   const [project, setProject] = useState({});
@@ -22,20 +23,28 @@ const Dashboard = () => {
     if(Object.entries(project) !== 0){
       getProjectStats(event.target.value.id).then(res => setFetchedProject( organizeStats( res.data ) ));
     }
-
   };
 
   useEffect(() => {
     if (session.status === 'authenticated' && Object.entries(organization).length === 0) {
-      const {
-        data: { user },
-      } = session;
-      getSingleOrganization(user.organization).then((res) =>
-        setOrganization(res.data)
-      );
-      getAllOrganizationStats(user.organization).then((res) =>
-        setIssuesStats(organizeStats(res.data))
-      );
+      const { data: { user } } = session;
+      if(user.role === 'administrator'){
+        getSingleOrganization(user.organization).then((res) =>
+          setOrganization(res.data)
+        );
+        getAllOrganizationStats(user.organization).then((res) =>
+          setIssuesStats(organizeStats(res.data))
+        );
+      }
+      if(Object.entries(project) !== 0 && user.project){
+
+        setProject({
+          organization: user.organization,
+          name: user.organization,
+        });
+
+        getProjectStats(user.project).then(res => setFetchedProject( organizeStats( res.data ) ));
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
@@ -45,7 +54,7 @@ const Dashboard = () => {
 
     return (
       <StyledDashboard>
-        <div className="select">
+        { !user?.project && <div className="select">
           <InputLabel id="project-label">Project</InputLabel>
           <Select
             labelId="project-label"
@@ -64,7 +73,7 @@ const Dashboard = () => {
               </MenuItem>
             ))}
           </Select>
-        </div>
+        </div>}
         {(Object.entries(project).length !== 0 && Object.entries(fetchedProject).length !== 0) &&
          <>
            <section className="dashboard-title">

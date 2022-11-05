@@ -6,6 +6,10 @@ export const createUser = async (credentials) => {
   return await axios.post(baseUrl, credentials);
 };
 
+export const getIndividualUser = async (id) => {
+  return await axios.get(`${baseUrl}/${id}`);
+};
+
 export const updateUserOrganization = async (data) => {
   return await axios.patch(`${baseUrl}/${data.userId}`, data);
 };

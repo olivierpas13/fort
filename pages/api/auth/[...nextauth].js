@@ -5,25 +5,37 @@ import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import login from 'services/login';
+import { getIndividualUser } from 'services/users';
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user }) {
+
       user && (token.user = user);
+
+      const { data: userFromDB } = await getIndividualUser(token.user.id);
+
+      token.user = {
+        ...token.user,
+        role: userFromDB.role,
+        project: userFromDB?.project,
+      };
+
       return token;
+
     },
     async session({ session, token, user }) {
+
       session = {
         ...session,
         user:
           token.user,
-        // id: token?.user.id,
-        // organization: token?.user?.organization,
-        // ...session.user
 
       };
+
       return session;
+
     }
   },
   providers: [
