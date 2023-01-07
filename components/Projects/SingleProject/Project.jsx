@@ -19,37 +19,37 @@ const Project = ({ project }) => {
       'data': [
         {
           'x': 'Monday',
-          'y': 10
+          'y': project.weeklyIssues.monday
         },
         {
           'x': 'Tuesday',
-          'y': 9
+          'y': project.weeklyIssues.tuesday
         },
         {
           'x': 'Wednesday',
-          'y': 5
+          'y': project.weeklyIssues.wednesday
         },
         {
           'x': 'Thursday',
-          'y': 18
+          'y': project.weeklyIssues.thursday
         },
         {
           'x': 'Friday',
-          'y': 19
+          'y': project.weeklyIssues.friday
         },
         {
           'x': 'Saturday',
-          'y': 2
+          'y': project.weeklyIssues.saturday
         },
         {
           'x': 'Sunday',
-          'y': 7
+          'y': project.weeklyIssues.sunday
         }
       ]
     },
   ];
 
-  const projectUrl = `${router.basePath}/organizations/${session.user.organization}/project/${project.name}/issues`;
+  const projectUrl = `${router.basePath}/organizations/${session.user.organization}/project/${project.id}`;
 
   return (
     <StyledProject>
@@ -77,7 +77,7 @@ const Project = ({ project }) => {
             stacked: true,
             reverse: false
           }}
-          yFormat=" >-.2f"
+          yFormat= ">-.0f"
           axisTop={null}
           axisRight={null}
           axisBottom={{
@@ -90,6 +90,7 @@ const Project = ({ project }) => {
             legendPosition: 'middle'
           }}
           axisLeft={{
+            tickValues: data.reduce((set, { y }) => set.add(y), new Set()).size,
             orient: 'left',
             tickSize: 5,
             tickPadding: 5,

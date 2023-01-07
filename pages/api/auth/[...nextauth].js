@@ -18,6 +18,7 @@ export const authOptions = {
 
       token.user = {
         ...token.user,
+        organizationId: userFromDB.organizationId,
         role: userFromDB.role,
         project: userFromDB?.project,
       };

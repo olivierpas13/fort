@@ -13,3 +13,7 @@ export const getAllOrganizationProjects = async (organization) => {
 export const getProjectStats = async (project) => {
   return await axios.get(`${baseUrl}/${project}/stats`);
 };
+
+export const getProjectWeeklyStats = async (project) => {
+  return await axios.get(`${baseUrl}/${project}/weeklyStats`);
+};

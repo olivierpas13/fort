@@ -69,7 +69,7 @@ const Invitation = ({ handleClose }) => {
                       <option value="submitter">Submitter</option>
                       <option value="developer">Developer</option>
                       <option value="project-manager">Project Manager</option>
-                      <option value="administrator">Administrator</option>
+                      { session?.data?.user?.role === 'administrator' && <option value="administrator">Administrator</option>}
                     </Field>
                     {(values.role !== 'administrator' && values.role !== 'submitter') &&
                       <>

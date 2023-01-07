@@ -4,7 +4,7 @@ import AppPage from './styledApp';
 const AppLayout = ({ children }) => {
   return (
     <AppPage>
-      <Sidebar/>
+      <Sidebar className='sidebar' />
       <div className='page-content'>
         {children}
       </div>

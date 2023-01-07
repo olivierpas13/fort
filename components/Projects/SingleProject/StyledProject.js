@@ -27,9 +27,12 @@ const StyledProject = styled.section`
         }
     }
     .project-stats{
+        box-shadow: 0px 0px solid black;
+        border-top: 2px solid gray;
+        border-bottom: 2px solid gray;
         display: flex;
         justify-content: center;
-        height: 20em;
+        height: 15em;
         width: 100%;
     }
     .project-buttons{

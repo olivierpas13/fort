@@ -33,7 +33,7 @@ const Roles = () => {
         <option>Developer</option>
         <option>Submitter</option>
         <option>Project Manager</option>
-        <option>Admin</option>
+        <option>Administrator</option>
       </Select>
     );
   }
@@ -49,12 +49,12 @@ const Roles = () => {
   useEffect(() => {
     const fetchData = async() => {
       if(session?.user?.organization){
-        const { data: users } = await getAllOrganizationUsers(session?.user?.organization);
-        setOrganizationUsers(users);
+        const { data: users } = await getAllOrganizationUsers(session.user.organization);
+        setOrganizationUsers(users.filter(user => user.id !== session?.user?.id));
       }
     };
     fetchData();
-  }, [session?.user?.organization]);
+  }, [session?.user?.id, session?.user?.organization]);
 
   const columns = [
     {
@@ -98,29 +98,35 @@ const Roles = () => {
   }, []);
 
   return (
+
     <StyledRoles>
-      <h1>Roles</h1>
-      <h2>To change the role of an user double click the role cell or press enter
+      { (session?.user?.role === 'administrator' || session?.user?.role === 'project-manager')?
+        <>
+          <h1>Roles</h1>
+          <h2>To change the role of an user double click the role cell or press enter
          while selecting it and select the new role</h2>
-      <div className=''>
-        <DataTable
-          handleProcessRowUpdateError={handleProcessRowUpdateError}
-          processRowUpdate={processRowUpdate}
-          data={organizationUsers}
-          columns={columns}
-          pageSize={5}
-        />
-      </div>
-      {!!snackbar && (
-        <Snackbar
-          open
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          onClose={handleCloseSnackbar}
-          autoHideDuration={6000}
-        >
-          <Alert {...snackbar} onClose={handleCloseSnackbar} />
-        </Snackbar>
-      )}
+          <div className=''>
+            <DataTable
+              handleProcessRowUpdateError={handleProcessRowUpdateError}
+              processRowUpdate={processRowUpdate}
+              data={organizationUsers}
+              columns={columns}
+              pageSize={5}
+            />
+          </div>
+          {!!snackbar && (
+            <Snackbar
+              open
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              onClose={handleCloseSnackbar}
+              autoHideDuration={6000}
+            >
+              <Alert {...snackbar} onClose={handleCloseSnackbar} />
+            </Snackbar>
+          )}
+        </>
+        : null
+      }
     </StyledRoles>
   );
 };

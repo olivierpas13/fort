@@ -43,7 +43,7 @@ const StyledSidebar = styled.nav`
                 }
                 &:hover{
                     color: white;
-                    transform: scale(1.1, 1.1);
+                    transform: scale(1.02, 1.02);
                 }
                 &:active{
                     background-color: red;

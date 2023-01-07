@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Project from './SingleProject/Project';
-import { getSingleOrganization } from 'services/organizations';
+import { getAllProjectsWeeklyStats, getSingleOrganization } from 'services/organizations';
 
 import StyledProjects from './StyledProjects';
 import { BasicButton } from 'generalStyledComponents/Button';
@@ -22,28 +22,34 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
 
-      const { data: organization } = await getSingleOrganization(session?.user?.organization);
+      if(session?.user?.organization && session?.user?.role === 'administrator'){
 
-      if(organization?.projects){
-        setProjects(organization.projects);
+        const { data: projects } = await getAllProjectsWeeklyStats(session.user.organization);
+
+        setProjects(projects);
+
       }
     };
     fetchProjects();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisibility, session?.user?.organization]);
 
+  console.log(projects);
+
   return (
     <StyledProjects>
-      <h1>Projects</h1>
-      <BasicButton onClick={() => setModalVisibility(true)} >
+      {projects.length !== 0 && <>
+        <h1>Projects</h1>
+        <BasicButton onClick={() => setModalVisibility(true)} >
         Create New Project
-      </BasicButton>
-      {modalVisibility && <CreateProject handleClose={handleClose} />}
-      <section className='projects'>
-        {projects.map(project =>
-          <Project project={project} key={project.id} />
-        )}
-      </section>
+        </BasicButton>
+        {modalVisibility && <CreateProject handleClose={handleClose} />}
+        <section className='projects'>
+          {projects.map(project =>
+            <Project project={project} key={project.id} />
+          )}
+        </section>
+      </>}
     </StyledProjects>
   );
 };

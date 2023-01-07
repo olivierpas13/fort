@@ -19,5 +19,5 @@ export const updateUserRole = async (cell) => {
 };
 
 export const getAllOrganizationUsers = async (organization) => {
-  return await axios.get(`${baseUrl}/${organization}`);
+  return await axios.get(`${baseUrl}/organization/${organization}`);
 };
