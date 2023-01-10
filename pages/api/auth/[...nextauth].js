@@ -26,8 +26,7 @@ export const authOptions = {
       return token;
 
     },
-    async session({ session, token, user }) {
-
+    async session({ session, token }) {
       session = {
         ...session,
         user:
@@ -47,7 +46,6 @@ export const authOptions = {
         password: {  label: 'Password', type: 'password' }
       },
       async authorize(credentials, req) {
-
         const user =  await login({
           email: credentials.email,
           password: credentials.password
