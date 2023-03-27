@@ -20,7 +20,6 @@ const Invitation = ({ handleClose }) => {
       const {
         data: { user },
       } = session;
-      console.log(user);
       getSingleOrganization(user.organization).then((res) =>
         setOrganization(res.data)
       );

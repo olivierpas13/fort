@@ -30,9 +30,9 @@ export const organizeStats = (stats) => {
     },
   ];
 
-  if(stats?.projectsIssues){
+  if(stats.projectsIssues?.length !== 0){
 
-    const projectsIssuesStats = stats?.projectsIssues.map((project) => {
+    const projectsIssuesStats = stats?.projectsIssues?.map((project) => {
       if(project.projectIssues !== 0){
         return{
           title: project.projectName,

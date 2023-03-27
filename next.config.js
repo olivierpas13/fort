@@ -7,10 +7,10 @@ const nextConfig = {
   },
 
   env:{
-    // BACKEND_URL: 'http://localhost:3003',
-    // FRONTEND_URL: 'http://localhost:3000'
-    FRONTEND_URL: 'https://fort-ten.vercel.app/',
-    BACKEND_URL: 'https://fort-backend.vercel.app'
+    BACKEND_URL: 'http://localhost:3003',
+    FRONTEND_URL: 'http://localhost:3000'
+    // FRONTEND_URL: 'https://fort-ten.vercel.app/',
+    // BACKEND_URL: 'https://fort-backend.vercel.app'
   },
 
   async headers() {

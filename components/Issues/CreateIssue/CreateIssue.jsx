@@ -1,26 +1,48 @@
-import { useEffect, useState } from 'react';
-import { Form, Field } from 'react-final-form';
+import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { Form, Field } from 'react-final-form';
 
-import StyledCreateIssue from './StyledCreateIssue';
-import { BasicButton } from 'generalStyledComponents/Button';
-import { createIssue } from 'services/issues';
+import { getSingularProject } from 'services/projects';
 import { getSingleOrganization } from 'services/organizations';
+import { createIssue } from 'services/issues';
+import StyledCreateIssue from './StyledCreateIssue';
 
-const CreateIssue = ({ handleClose }) => {
+
+const CreateIssue = ({
+  isOpen,
+  onClose,
+  // onSubmit,
+  // organizationProjects,
+  // projectUsers,
+}) => {
   const { data: session } = useSession();
-  const [organizationUsers, setOrganizationUsers] = useState([]);
-  const [organizationProjects, setOrganizationProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [organizationProjects, setOrganizationProjects] = useState(null);
+  const [projectDevelopers, setProjectDevelopers] = useState([]);
 
   useEffect(() => {
     const fetchData = async() => {
       const { data: organization } = await getSingleOrganization(session?.user?.organization);
+      console.log(organization);
       setOrganizationProjects(organization.projects);
-      setOrganizationUsers(organization.users);
+      // setOrganizationUsers(organization.users);
     };
     fetchData();
-  }, [session?.user?.organization]);
+  }, []);
 
+  useEffect(() => {
+    if (selectedProject) {
+      const fetchProject = async() => {
+        const fetchedProject = await getSingularProject(selectedProject.id);
+        const developers = fetchedProject?.users?.map((user) => ({
+          label: user.name,
+          value: user.id,
+        }));
+        setProjectDevelopers(developers);
+      };
+      fetchProject();
+    }
+  }, [selectedProject]);
 
   const onSubmit = async (values) => {
     const issueObject = {
@@ -35,84 +57,88 @@ const CreateIssue = ({ handleClose }) => {
     }
   };
 
+  const handleProjectChange = (e) => {
+    setSelectedProject(
+      organizationProjects?.filter((project) => {
+        return project.id === e.target.value;
+      })[0]);
+  };
+
+  const handleReset = (form) => {
+    form.reset();
+    setSelectedProject(null);
+  };
+
   return (
-    <StyledCreateIssue onClick={() => handleClose()}>
-      <div
-        className="modal-content"
-        onClick={(e) => {
+    <StyledCreateIssue onClick={() => onClose()} isOpen={isOpen}>
+      {isOpen && (
+        <div className="modal" onClick={(e) => {
           e.stopPropagation();
         }}
-      >
-        <Form
-          onSubmit={onSubmit}
-          initialValues={{ title: '', description: '', priority: 'low' }}
-          render={({ handleSubmit, form, submitting, pristine }) => (
-            <form onSubmit={handleSubmit}>
-              <h2>{'New Issue Creation'}</h2>
-              <div>
-                <label>Title</label>
-                <Field
-                  name="title"
-                  component="input"
-                  type="text"
-                  placeholder="Title"
-                />
-              </div>
-              <div>
-                <label>Description</label>
-                <Field
-                  name="description"
-                  component="input"
-                  type="text"
-                  placeholder="Description"
-                />
-              </div>
-              <div>
-                <label>Priority</label>
-                <Field
-                  name="priority"
-                  component="select"
-                  type="text"
-                  placeholder="Priority"
-                >
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </Field>
-              </div>
-              <div>
-                <label>Assigned Developer</label>
-                <Field name="assignedDev" component="select">
-                  <option/>
-                  {organizationUsers.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
-                </Field>
-              </div>
-              <div>
-                <label>Project</label>
-                <Field
-                  name="project"
-                  component="select"
-                >
-                  <option/>
-                  {organizationProjects.map(project => <option key={project.id} value={project.id}>{project.name}</option>)}
-                </Field>
-              </div>
-              <BasicButton
-                onClick={() => handleSubmit()}
-                disabled={submitting || pristine}
-              >
-                Create Issue
-              </BasicButton>
-              <BasicButton
-                onClick={() => form.reset()}
-                disabled={submitting || pristine}
-              >
-                Clear All
-              </BasicButton>
-            </form>
-          )}
-        />
-      </div>{' '}
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Create Issue</h2>
+              <button className="close-btn" onClick={onClose}>
+            &times;
+              </button>
+            </div>
+            <Form
+              onSubmit={onSubmit}
+              render={({ handleSubmit, form }) => (
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <label>Title</label>
+                    <Field name="title" component="input" type="text" />
+                  </div>
+                  <div>
+                    <label>Description</label>
+                    <Field name="description" component="textarea" />
+                  </div>
+                  <div>
+                    <label>Priority</label>
+                    <Field name="priority" component="select">
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </Field>
+                  </div>
+                  <div>
+                    <label>Project</label>
+                    <Field name="project" component="select" onChange={(e) => {handleProjectChange(e);}}>
+                      <option value={null}>{selectedProject?.name}</option>
+                      {organizationProjects?.map((project) => (
+                        <option key={project.id} value={project.id}>
+                          {project.name}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                  {selectedProject && (
+                    <div>
+                      <label>Assigned developer</label>
+                      <Field name="developer" component="select">
+                        <option value="">Select developer</option>
+                        {projectDevelopers?.map((developer) => (
+                          <option key={developer.value} value={developer.id}>
+                            {developer.name}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                  )}
+                  <div>
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={() => handleReset(form)}>
+                      Reset
+                    </button>
+                  </div>
+                </form>
+              )}
+            />
+          </div>
+        </div>
+      )}
     </StyledCreateIssue>
   );
 };

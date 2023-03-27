@@ -34,8 +34,6 @@ const Projects = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisibility, session?.user?.organization]);
 
-  console.log(projects);
-
   return (
     <StyledProjects>
       {projects.length !== 0 && <>
@@ -50,6 +48,13 @@ const Projects = () => {
           )}
         </section>
       </>}
+      <h1>
+        No projects created
+      </h1>
+      <BasicButton onClick={() => setModalVisibility(true)} >
+        Create New Project
+      </BasicButton>
+      {modalVisibility && <CreateProject handleClose={handleClose} />}
     </StyledProjects>
   );
 };

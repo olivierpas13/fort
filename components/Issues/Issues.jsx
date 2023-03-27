@@ -53,7 +53,7 @@ const Issues = () => {
         <IssuesTable modalVisibility={open} currentFilter={currentFilter} />
       </div>
       <div className='issues-creation'>
-        {open && <CreateIssue open={open} handleClose={handleClose}/>}
+        {open && <CreateIssue isOpen={open} onClose={handleClose}/>}
         <BasicButton onClick={() => handleOpen()} >
         Create New Issue
         </BasicButton>

@@ -52,8 +52,6 @@ const Dashboard = () => {
   if (session.status === 'authenticated') {
     const { data: { user } } = session;
 
-    console.log(user);
-
     return (
       <StyledDashboard>
         { !user?.project && <div className="select">
