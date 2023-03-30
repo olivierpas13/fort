@@ -1,5 +1,7 @@
+import isEmpty from 'lodash/isEmpty';
 
 export const organizeStats = (stats) => {
+  console.log(stats);
   const priorityStats = [
     {
       title: 'High',
@@ -16,7 +18,7 @@ export const organizeStats = (stats) => {
       value: stats.lowPriorityIssues,
       color: '#57A009'
     }
-  ];
+  ].filter(stat => stat.value !== 0);
   const statusStats = [
     {
       title: 'Open',
@@ -28,30 +30,22 @@ export const organizeStats = (stats) => {
       value: stats.closedIssues,
       color: '#4E6D7F'
     },
-  ];
+  ].filter(stat => stat.value !== 0);
 
-  if(stats.projectsIssues?.length !== 0){
-
-    const projectsIssuesStats = stats?.projectsIssues?.map((project) => {
-      if(project.projectIssues !== 0){
-        return{
-          title: project.projectName,
-          value: project.projectIssues,
-          color: '#777'
-        };
-      }
-    }
-    ).filter(stat => stat !== undefined);
+  if(!isEmpty(stats.projectsIssues)){
     return ({
       priorityStats,
       statusStats,
-      projectsIssuesStats
+      projectsIssuesStats: stats.projectsIssues,
+      totalIssues: stats.totalIssues
+
     });
   }
   return ({
     priorityStats,
     statusStats,
     name: stats.projectName,
-    users: stats.users
+    users: stats.users,
+    totalIssues: stats.totalIssues
   });
 };

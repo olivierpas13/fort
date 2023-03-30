@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { Form, Field } from 'react-final-form';
+import { Form, Field, FormSpy } from 'react-final-form';
 
 import { getSingularProject } from 'services/projects';
 import { getSingleOrganization } from 'services/organizations';
@@ -17,43 +17,44 @@ const CreateIssue = ({
 }) => {
   const { data: session } = useSession();
   const [selectedProject, setSelectedProject] = useState(null);
+  const [fetchedProject, setFetchedProject] = useState(null);
   const [organizationProjects, setOrganizationProjects] = useState(null);
   const [projectDevelopers, setProjectDevelopers] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async() => {
       const { data: organization } = await getSingleOrganization(session?.user?.organization);
-      console.log(organization);
       setOrganizationProjects(organization.projects);
-      // setOrganizationUsers(organization.users);
     };
     fetchData();
-  }, []);
+  }, [session?.user?.organization]);
 
   useEffect(() => {
     if (selectedProject) {
       const fetchProject = async() => {
-        const fetchedProject = await getSingularProject(selectedProject.id);
-        const developers = fetchedProject?.users?.map((user) => ({
-          label: user.name,
-          value: user.id,
-        }));
-        setProjectDevelopers(developers);
+        const { data: project } = await getSingularProject(selectedProject);
+        console.log(project);
+        setFetchedProject(project);
+        setProjectDevelopers(project.users);
       };
       fetchProject();
     }
-  }, [selectedProject]);
+  }, [ selectedProject]);
 
   const onSubmit = async (values) => {
     const issueObject = {
       ...values,
+      projectTitle: fetchedProject.name,
+      assignedDev: values.developer,
       submitter: session.user?.id,
       organization: session.user?.organization
     };
 
+
     const createdIssue = await createIssue(issueObject);
     if(createdIssue){
-      handleClose();
+      onClose();
     }
   };
 
@@ -87,6 +88,15 @@ const CreateIssue = ({
               onSubmit={onSubmit}
               render={({ handleSubmit, form }) => (
                 <form onSubmit={handleSubmit}>
+                  <FormSpy
+                    subscription={ { values: true } }
+                    onChange={props => {
+                      const { values } = props;
+                      if(values.project){
+                        setSelectedProject(values.project);
+
+                      }}}
+                  />
                   <div>
                     <label>Title</label>
                     <Field name="title" component="input" type="text" />
@@ -105,8 +115,9 @@ const CreateIssue = ({
                   </div>
                   <div>
                     <label>Project</label>
-                    <Field name="project" component="select" onChange={(e) => {handleProjectChange(e);}}>
-                      <option value={null}>{selectedProject?.name}</option>
+                    <Field name="project" component="select"
+                    >
+                      <option value="">Select project</option>
                       {organizationProjects?.map((project) => (
                         <option key={project.id} value={project.id}>
                           {project.name}
@@ -120,7 +131,7 @@ const CreateIssue = ({
                       <Field name="developer" component="select">
                         <option value="">Select developer</option>
                         {projectDevelopers?.map((developer) => (
-                          <option key={developer.value} value={developer.id}>
+                          <option key={developer.id} value={developer.id}>
                             {developer.name}
                           </option>
                         ))}

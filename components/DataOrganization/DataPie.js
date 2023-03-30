@@ -1,8 +1,11 @@
 import { PieChart } from 'react-minimal-pie-chart';
 import ReactTooltip from 'react-tooltip';
 import { useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 
 const DataPie = ({ data }) => {
+
+  console.log(data);
 
   const [hovered, setHovered] = useState(undefined);
 
@@ -22,7 +25,7 @@ const DataPie = ({ data }) => {
 
   return(
     <div data-tip="" data-for="chart" >
-      <PieChart
+      {!isEmpty(data) ? <PieChart
         animate= {true}
         lineWidth={100}
         radius={PieChart.defaultProps.radius - 6}
@@ -38,13 +41,15 @@ const DataPie = ({ data }) => {
         label={({ dataEntry }) => dataEntry.title}
         data={dataForPie}
       />
+        :
+        <h2>No issues found</h2>
+      }
       <ReactTooltip
         id="chart"
         getContent={() =>
           typeof hovered === 'number' ? makeTooltipContent(data[hovered]) : null
         }
       />
-    </div>
-  );
+    </div>);
 };
 export default DataPie;

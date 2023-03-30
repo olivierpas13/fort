@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { InputLabel, Select, MenuItem } from '@mui/material';
+import isEmpty from 'lodash/isEmpty';
 
 import { getSingleOrganization } from 'services/organizations';
 import StyledDashboard from './StyledDashboard';
@@ -51,7 +52,7 @@ const Dashboard = () => {
 
   if (session.status === 'authenticated') {
     const { data: { user } } = session;
-
+    console.log(issuesStats);
     return (
       <StyledDashboard>
         { !user?.project && <div className="select">
@@ -85,7 +86,7 @@ const Dashboard = () => {
                  <h3>Issues</h3>
                </div>
                <div className="stat">
-                 <h3>{fetchedProject?.statusStats[0]?.value + fetchedProject?.statusStats[1]?.value}</h3>
+                 <h3>{issuesStats.totalIssues}</h3>
                </div>
              </article>
              <article className="users">
@@ -97,25 +98,26 @@ const Dashboard = () => {
                </div>
              </article>
            </section>
-           {!((fetchedProject.statusStats.reduce((prev, curr) => prev.value + curr.value )) === 0)?
-             <section className='data-tables' >
-               <article className='priority-table' >
-                 <div className='table-title' >
-                   <h2>Issues by priority</h2>
-                 </div>
-                 <div className='table-graph'>
-                   <DataPie data={fetchedProject.priorityStats} />
-                 </div>          </article>
-               <article className='status-table' >
-                 <div className='table-title' >
-                   <h2>Issues by status</h2>
-                 </div>
-                 <div className='table-graph'>
-                   <DataPie data={fetchedProject.statusStats} />
-                 </div>
-               </article>
-             </section>
-             : Object.entries(project).length !== 0 && <h2 className='no-data-found-message' >Unable to show stats, no data found.</h2>
+           {
+             !isEmpty(fetchedProject.statusStats)?
+               <section className='data-tables' >
+                 <article className='priority-table' >
+                   <div className='table-title' >
+                     <h2>Issues by priority</h2>
+                   </div>
+                   <div className='table-graph'>
+                     <DataPie data={fetchedProject.priorityStats} />
+                   </div>          </article>
+                 <article className='status-table' >
+                   <div className='table-title' >
+                     <h2>Issues by status</h2>
+                   </div>
+                   <div className='table-graph'>
+                     <DataPie data={fetchedProject.statusStats} />
+                   </div>
+                 </article>
+               </section>
+               : Object.entries(project).length !== 0 && <h2 className='no-data-found-message' >Unable to show stats, no data found.</h2>
            }
          </>
         }
@@ -138,15 +140,7 @@ const Dashboard = () => {
               <h3>Issues</h3>
             </div>
             <div className="stat">
-              <h3>{issuesStats?.statusStats[0]?.value + issuesStats?.statusStats[1]?.value}</h3>
-            </div>
-          </article>
-          <article className="users">
-            <div className="title">
-              <h3>Users</h3>
-            </div>
-            <div className="stat">
-              <h3>{organization.users.length}</h3>
+              {issuesStats.totalIssues}
             </div>
           </article>
         </section>
@@ -171,6 +165,7 @@ const Dashboard = () => {
               <h2>Issues by project</h2>
             </div>
             <div className='table-graph'>
+              {/* here */}
               <DataPie data={issuesStats.projectsIssuesStats} />
             </div>
           </article>
