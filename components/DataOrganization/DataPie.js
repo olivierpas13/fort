@@ -5,8 +5,6 @@ import isEmpty from 'lodash/isEmpty';
 
 const DataPie = ({ data }) => {
 
-  console.log(data);
-
   const [hovered, setHovered] = useState(undefined);
 
   const makeTooltipContent = (entry) => {

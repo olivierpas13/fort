@@ -8,7 +8,6 @@ import { BasicButton } from 'generalStyledComponents/Button';
 import { useSession } from 'next-auth/react';
 
 const Project = ({ project }) => {
-
   const { data: session } = useSession();
 
   const router = useRouter();
@@ -59,7 +58,9 @@ const Project = ({ project }) => {
             <Image
               width={60}
               height={60}
-              src="/javascriptLogo.png" alt="" />
+              src={project.logo || '/logos/defaultLogo.png'}
+              alt={`${project.name} logo`}
+            />
             <h2>{project.name}</h2>
           </div>
         </a>

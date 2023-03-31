@@ -34,7 +34,6 @@ const CreateIssue = ({
     if (selectedProject) {
       const fetchProject = async() => {
         const { data: project } = await getSingularProject(selectedProject);
-        console.log(project);
         setFetchedProject(project);
         setProjectDevelopers(project.users);
       };

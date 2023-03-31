@@ -1,7 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 
 export const organizeStats = (stats) => {
-  console.log(stats);
   const priorityStats = [
     {
       title: 'High',
