@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { mainColor } from '../../generalStyledComponents/Pallete';
@@ -18,6 +19,7 @@ const Sidebar = () => {
 
   const [modalVisibility, setModalVisibility] = useState(false);
 
+  const router = useRouter();
 
   if(session){
     const { user } = session;

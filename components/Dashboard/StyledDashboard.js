@@ -24,7 +24,7 @@ const StyledDashboard = styled.section`
         width: 19em;
     }
     .stats{
-        width: 110%;
+        width: 100%;
         padding-top: 1em;
         display: flex;
         justify-content: space-between;
@@ -47,27 +47,25 @@ const StyledDashboard = styled.section`
             }
             & .stat{
                 flex: 3;
-                font-size: 4.5em;
+                font-size: 3em;
             }
         }
     }
     .data-tables{
         margin-top: 2em;
         display: flex;
-        width: 110%;
+        width: 100%;
         justify-content: center;
         .priority-table, .project-issues-table, .status-table{
             border-radius: 1em;
             display: flex;
             flex-direction: column;
-            /* width: 100%; */
             justify-content: center;
             border: 1px solid #bbb;
             box-shadow: 0px 0px 1px black;
             margin-right: 1em;
             align-items: center;
             flex: 1;
-            /* height: 20em; */
             .table-title{
                 padding: 0.5em;
                 color: whitesmoke;

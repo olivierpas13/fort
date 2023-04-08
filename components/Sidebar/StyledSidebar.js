@@ -3,6 +3,13 @@ import { mainColor } from '../../generalStyledComponents/Pallete';
 import Section from '../../generalStyledComponents/Section';
 
 const StyledSidebar = styled.nav`
+  ${({ visible }) =>
+    !visible &&
+    `
+    @media (max-width: 767px) {
+      display: none;
+    }
+  `}
     display: flex;
     position: fixed;
     flex-direction: column;
@@ -51,7 +58,6 @@ const StyledSidebar = styled.nav`
             }
         }
         .invitation{
-            /* background-color: white; */
             button{
              margin: 0 auto;
              margin-top: 30px;
@@ -59,13 +65,7 @@ const StyledSidebar = styled.nav`
              text-transform: capitalize;
              padding: 5px 20px ;
              border: 1px solid white;
-                /* color: black !important; */
             }
-            /* border: 1px solid #bbb;
-            border-radius: 4px;
-            &:hover{
-                transform: scale(1,1) !important;
-            } */
         }
     }
 `;

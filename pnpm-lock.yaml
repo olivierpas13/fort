@@ -23,6 +23,7 @@ specifiers:
   react: 18.2.0
   react-dom: 18.2.0
   react-final-form: 6.5.9
+  react-icons: ^4.8.0
   react-lettered-avatar: 1.0.2
   react-minimal-pie-chart: 8.3.0
   react-redux: 8.0.2
@@ -52,6 +53,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-final-form: 6.5.9_b76tjmhm4bpbaoui6lan2hu4pm
+  react-icons: 4.8.0_react@18.2.0
   react-lettered-avatar: 1.0.2_biqbaboplfbrettd7655fr4n2y
   react-minimal-pie-chart: 8.3.0_biqbaboplfbrettd7655fr4n2y
   react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
@@ -71,7 +73,7 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       '@jridgewell/gen-mapping': 0.1.1
-      '@jridgewell/trace-mapping': 0.3.15
+      '@jridgewell/trace-mapping': 0.3.17
     dev: false
 
   /@babel/code-frame/7.18.6:
@@ -575,13 +577,6 @@ packages:
 
   /@jridgewell/sourcemap-codec/1.4.14:
     resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}
-    dev: false
-
-  /@jridgewell/trace-mapping/0.3.15:
-    resolution: {integrity: sha512-oWZNOULl+UbhsgB51uuZzglikfIKSUBO/M9W2OfEjn7cmqoAiCgmv9lyACTUacZwBz0ITnJ2NqjU8Tx0DHL88g==}
-    dependencies:
-      '@jridgewell/resolve-uri': 3.1.0
-      '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
   /@jridgewell/trace-mapping/0.3.17:
@@ -4541,6 +4536,14 @@ packages:
     dependencies:
       '@babel/runtime': 7.19.0
       final-form: 4.20.7
+      react: 18.2.0
+    dev: false
+
+  /react-icons/4.8.0_react@18.2.0:
+    resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
       react: 18.2.0
     dev: false
 
