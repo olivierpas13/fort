@@ -50,7 +50,6 @@ const AppPage = styled.section`
     .sidebar-toggle {
       display: block;
       position: absolute;
-      /* top: 15px; */
       left: 15px;
       background: none;
       border: none;
@@ -75,19 +74,3 @@ const AppPage = styled.section`
 `;
 
 export default AppPage;
-
-
-// import styled from 'styled-components';
-
-// const AppPage = styled.section`
-//     width: 98vw;
-//     display: flex;
-//     background-color: #fbfbfc;
-//     & .page-content{
-//         padding-left: 7em;
-//         margin: 2em auto;
-//         width: 75vw;
-//     }
-// `;
-
-// export default AppPage;
