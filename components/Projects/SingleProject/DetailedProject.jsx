@@ -9,13 +9,18 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Chip from '@mui/material/Chip';
+import { DataGrid, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import isEmpty from 'lodash/isEmpty';
 
+import DataPie from 'components/DataOrganization/DataPie';
+import DataGraph from 'components/DataOrganization/DataGraph';
 import { getSingularProject } from 'services/projects';
 import StyledDetailedProject from './StyledDetailedProject';
 import { BasicButton } from 'generalStyledComponents/Button';
 import getPriorityColor from 'utils/getPriorityColor';
 import DetailedIssueModal from 'components/Issues/DetailedIssueModal/DetailedIssueModal';
+import countIssues from 'utils/countIssues';
+import organizeIssuesByDay from 'utils/organizeIssuesByDay';
 
 const DetailedProject = () => {
   const { data: session } = useSession();
@@ -30,13 +35,76 @@ const DetailedProject = () => {
 
   const projectUrl = `${router.basePath}/organizations/${session?.user?.organization}/projects`;
 
-  function getLatestIssue(project) {
+  const getLatestIssue = (project) => {
     return project.issues.reduce((latestIssue, currentIssue) => {
       return latestIssue === undefined || new Date(currentIssue.createdOn) > new Date(latestIssue.createdOn)
         ? currentIssue
         : latestIssue;
     }, undefined);
-  }
+  };
+
+  const columns = [
+    // {
+    //   field: 'actions',
+    //   type: 'actions',
+    //   sortable: false,
+    //   headerName: '',
+    //   width: 50,
+    //   // renderCell: (params) => (
+    //   //   <>{<Checkbox size="small" checked={findPerson(params.row)} onChange={() => handleChange(params.row)} />}</>
+    //   // )
+    // },
+    {
+      field: 'id',
+      headerName: 'ID',
+      flex: 1,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'title',
+      headerName: 'Title',
+      flex: 1,
+      minWidth: 150,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      flex: 1,
+      minWidth: 200,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'priority',
+      headerName: 'Priority',
+      flex: 1,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'ticketStatus',
+      headerName: 'Status',
+      flex: 1,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'assignedDev',
+      headerName: 'Assigned Developer',
+      flex: 1,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'submitter',
+      headerName: 'Submitter',
+      flex: 1,
+      renderCell: (params) => <>{params.value}</>
+    },
+    {
+      field: 'project',
+      headerName: 'Project',
+      flex: 1,
+      renderCell: (params) => <>{params.value}</>
+    },
+  ];
 
   useEffect(() => {
     if(projectId){
@@ -53,6 +121,8 @@ const DetailedProject = () => {
   }, [project]);
 
   if(!isEmpty(project)){
+    const { status, priority } = countIssues(project.issues);
+    const weeklyIssues = organizeIssuesByDay(project.issues);
     return (
       <StyledDetailedProject>
         <Breadcrumbs aria-label="breadcrumb">
@@ -81,28 +151,10 @@ const DetailedProject = () => {
                   {project.users.length}
                 </Typography>
               </CardContent>
-            </Card>
-            <BasicButton>
+              <BasicButton>
             Manage users
-            </BasicButton>
-          </section>
-          <section className="total-issues">
-            <Card>
-              <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Total Issues
-                </Typography>
-                <Typography variant="h4" component="div">
-                  {project.issues.length}
-                </Typography>
-              </CardContent>
+              </BasicButton>
             </Card>
-            <div className="issues-stat" >
-              <h3>
-              </h3>
-              <h4>
-              </h4>
-            </div>
             <Card className="recent-issue">
               <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -123,20 +175,68 @@ const DetailedProject = () => {
                 <DetailedIssueModal open={openRecentIssue} handleClose={() => setOpenRecentIssue(false)} recentIssue={recentIssue} />
               </CardActions>
             </Card>
+          </section>
+          <section className="total-issues">
+            <Card>
+              <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Total Issues
+                </Typography>
+                <Typography variant="h4" component="div">
+                  {project.issues.length}
+                </Typography>
+              </CardContent>
+            </Card>
+            <div className="issues-stat" >
+              <h3>
+              </h3>
+              <h4>
+              </h4>
+            </div>
+
             <section className="graphs">
-              <div className='priority-pie' >
-              Priority pie
-              </div>
-              <div className='status-pie' >
-              Status pie
-              </div>
+              <Card className='priority-pie' >
+                <CardContent>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Issues by priority
+                  </Typography>
+
+                  <DataPie data={priority} />
+                </CardContent>
+              </Card>
+              <Card className='status-pie' >
+                <CardContent>
+
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Issues by status
+                  </Typography>
+                  <DataPie data={status} />
+                </CardContent>
+              </Card>
             </section>
           </section>
-          <div className="weekly-issues">
-          Weekly-issues graph
-          </div>
+          <Card className="weekly-issues">
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Weekly issues
+              </Typography>
+              <DataGraph data={weeklyIssues} />
+            </CardContent>
+          </Card>
           <div classNAme="issues-table" >
           Issues-table
+
+            <DataGrid
+              rows={project.issues}
+              columns={columns}
+              components={{ Toolbar: GridToolbar }}
+              disableColumnSelector
+              disableSelectionOnClick
+              autoHeight
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              getRowId={(row) => row.id}
+            />
           </div>
         </section>
       </StyledDetailedProject>

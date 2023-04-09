@@ -23,7 +23,7 @@ const StyledDetailedProject = styled.section`
     }
     .content-container{
         display: grid;
-        grid-template-columns: 1fr 1.5fr;
+        grid-template-columns: 1.2fr 1.7fr;
         grid-template-rows: repeat(2, 1fr);
         grid-column-gap: 40px;
         grid-row-gap: 30px;
@@ -39,7 +39,21 @@ const StyledDetailedProject = styled.section`
                 margin-top: -1em;
             }
         }
+        .graphs{
+            display: flex;
+            justify-content: space-evenly;
+            .priority-pie, .status-pie{
+                height: 15em;
+                width: 15em;
+            }
+        }
+        .total-users{
+            .recent-issue{
+                margin-top: 1em;
+            }
+        }
     }
+
 `;
 
 export default StyledDetailedProject;
