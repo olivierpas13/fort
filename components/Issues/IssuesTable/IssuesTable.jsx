@@ -36,7 +36,6 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
     }
     // // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisibility, session?.user?.organization]);
-  // }, []);
 
 
   useEffect(() => {
