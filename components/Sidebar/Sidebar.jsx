@@ -1,17 +1,14 @@
-import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import Avatar from '@mui/material/Avatar';
+
 import { mainColor } from '../../generalStyledComponents/Pallete';
+import getInitials from 'utils/getInitials';
 import StyledSidebar from './StyledSidebar';
-import { useState } from 'react';
 import Invitation from 'components/Invitation/Invitation';
 import { BasicButton } from 'generalStyledComponents/Button';
-
-const ProfilePictureWithLetters = dynamic(
-  () => import('react-lettered-avatar'),
-  { ssr: false }
-);
 
 const Sidebar = () => {
 
@@ -24,6 +21,8 @@ const Sidebar = () => {
   if(session){
     const { user } = session;
     const baseUrl = `/organizations/${user.organization}`;
+    const userName= getInitials(user?.name);
+
     return (
       <>
         {
@@ -33,12 +32,12 @@ const Sidebar = () => {
         <StyledSidebar>
           <div className='profile'>
             <div className='profile-picture' >
-              <ProfilePictureWithLetters
-                name={user.name}
-                backgroundColor = {mainColor}
-                size={40}
-                radius={5}
-              />
+              <Avatar
+                sx={{ bgcolor: mainColor }}
+                variant="rounded"
+              >
+                {userName}
+              </Avatar>
             </div>
             <div className="profile-credentials">
               <p>{user.organization}</p>
