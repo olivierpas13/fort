@@ -39,18 +39,28 @@ const StyledDetailedProject = styled.section`
                 margin-top: -1em;
             }
         }
-        .graphs{
-            display: flex;
-            justify-content: space-evenly;
-            .priority-pie, .status-pie{
-                height: 15em;
-                width: 15em;
-            }
-        }
         .total-users{
             .recent-issue{
                 margin-top: 1em;
             }
+        }
+        .total-issues{
+            .selected-stat{
+                margin-top: 1.4em;
+                padding: 1em;
+                height: fit-content;
+                width: 100%;
+                    .data-pie {
+                      width: 100%;
+                      height: 200px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    }
+            }
+        }
+        .issues-table{
+            grid-area: 2 / 1 / 3 / 3; 
         }
     }
 

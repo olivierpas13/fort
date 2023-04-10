@@ -30,7 +30,12 @@ const CreateProject = ({ handleClose, setProjects, projects }) => {
           logo: project.logo,
           weeklyIssues: res.data,
         };
-        setProjects([...projects, projectToAdd]);
+        if(projects.length !== 0){
+          setProjects([...projects, projectToAdd]);
+        }
+        if(projects.length === 0){
+          setProjects([projectToAdd]);
+        }
       });
       // setProjects([...projects, newProject]);
       handleClose();

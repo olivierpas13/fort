@@ -1,7 +1,7 @@
 import { ResponsiveLine } from '@nivo/line';
 import GraphContainer from './GraphContainer';
 
-const DataGraph = ({ data }) => {
+const DataGraph = ( { data } ) => {
   return (
     <GraphContainer>
       <ResponsiveLine
