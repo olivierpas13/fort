@@ -11,9 +11,6 @@ import StyledCreateIssue from './StyledCreateIssue';
 const CreateIssue = ({
   isOpen,
   onClose,
-  // onSubmit,
-  // organizationProjects,
-  // projectUsers,
 }) => {
   const { data: session } = useSession();
   const [selectedProject, setSelectedProject] = useState(null);
