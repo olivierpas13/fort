@@ -125,6 +125,7 @@ const DetailedProject = () => {
   if (!isEmpty(project)) {
     const { status, priority } = countIssues(project.issues);
     const weeklyIssues = organizeIssuesByDay(project.issues);
+    console.log(project.issues);
     return (
       <StyledDetailedProject>
         <Breadcrumbs aria-label="breadcrumb">
@@ -245,15 +246,17 @@ const DetailedProject = () => {
                 <Typography variant="h4" component="div">
                   {project.issues.length}
                 </Typography>
+                <BasicButton onClick={() => {document.getElementById('issues-table').scrollIntoView();}} >
+                  Manage issues
+                </BasicButton>
+
               </CardContent>
             </Card>
             <Card className="selected-stat">
-              {/* <InputLabel id="demo-simple-select-label">Issues by</InputLabel> */}
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={statType}
-                // label="Issues by"
                 onChange={handleChange}
               >
                 <MenuItem value={'priority'}>Priority</MenuItem>
@@ -303,7 +306,7 @@ const DetailedProject = () => {
               )}
             </Card>
           </section>
-          <Card className="issues-table">
+          <Card className="issues-table" id="issues-table" >
             <CardContent>
               <Typography
                 sx={{ fontSize: 14 }}

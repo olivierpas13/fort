@@ -30,7 +30,7 @@ const Registration = () => {
       signIn('credentials', {
         email: values.email,
         password: values.password,
-        callbackUrl: `${process.env.FRONTEND_URL}/organizations/${user.organization}/dashboard`
+        callbackUrl: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/organizations/${user.organization}/dashboard`
       });
       // const loggedUser = await login({
       //   email: user.email,
