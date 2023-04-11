@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = `${process.env.BACKEND_URL}/api/organization`;
+const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/organization`;
 
 export const getAllOrganizaitions = async () => {
   return await axios.get(baseUrl);
