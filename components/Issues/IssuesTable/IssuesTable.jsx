@@ -1,8 +1,18 @@
-import { Checkbox } from '@mui/material';
+import { useEffect, useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+
 import { DataGrid, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { BsCheckCircleFill, BsFillPencilFill, BsEyeFill } from 'react-icons/bs';
+
+import { BasicButton } from 'generalStyledComponents/Button';
 import { getAllOrganizationIssues } from 'services/issues';
+import closeIssue from 'utils/closeIssue';
 
 
 const IssuesTable = ({ modalVisibility, currentFilter }) => {
@@ -13,6 +23,7 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
 
   const [allIssues, setAllIssues] = useState([]);
   const [issues, setIssues] = useState([]);
+  const [isOpenCloseIssueDialog, setIsOpenCloseIssueDialog] = useState([]);
 
   const fetchIssues = async () => {
     if(session?.user?.organization){
@@ -47,19 +58,7 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
     }
   }, [allIssues, currentFilter]);
 
-  const pageSize = 5;
-
   const columns = [
-    // {
-    //   field: 'actions',
-    //   type: 'actions',
-    //   sortable: false,
-    //   headerName: '',
-    //   width: 50,
-    //   // renderCell: (params) => (
-    //   //   <>{<Checkbox size="small" checked={findPerson(params.row)} onChange={() => handleChange(params.row)} />}</>
-    //   // )
-    // },
     {
       field: 'id',
       headerName: 'ID',
@@ -71,13 +70,6 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
       headerName: 'Title',
       flex: 1,
       minWidth: 150,
-      renderCell: (params) => <>{params.value}</>
-    },
-    {
-      field: 'description',
-      headerName: 'Description',
-      flex: 1,
-      minWidth: 200,
       renderCell: (params) => <>{params.value}</>
     },
     {
@@ -110,6 +102,39 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
       flex: 1,
       renderCell: (params) => <>{params.value}</>
     },
+    {
+      field: 'actions',
+      type: 'actions',
+      sortable: false,
+      headerName: '',
+      width: 100,
+      renderCell: (params) => (
+        <>{
+          <div>
+            <BsCheckCircleFill onClick={() => {setIsOpenCloseIssueDialog(true);}} />
+            <BsFillPencilFill/>
+            <BsEyeFill/>
+            <Dialog open={isOpenCloseIssueDialog}  onClose={() => {setIsOpenCloseIssueDialog(false);}}>
+              <DialogTitle><b>Close Issue Confirmation</b></DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to close the issue <b>{params.row.title}</b>
+                </DialogContentText>
+
+                <Stack direction="row">
+                  <Stack direction="row" spacing={1}>
+                    <BasicButton onClick={() => {closeIssue(params.row);}} >Confirm</BasicButton>
+                  </Stack>
+                  <Stack direction="row" spacing={1}>
+                    <BasicButton onClick={() => { setIsOpenCloseIssueDialog(false); }} >Close</BasicButton>
+                  </Stack>
+                </Stack>
+              </DialogContent>
+            </Dialog>
+          </div>
+        }</>
+      )
+    },
   ];
 
   return (
@@ -120,8 +145,8 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
       disableColumnSelector
       disableSelectionOnClick
       autoHeight
-      pageSize={pageSize}
-      rowsPerPageOptions={[pageSize]}
+      pageSize={5}
+      rowsPerPageOptions={[5]}
       getRowId={(row) => row.id}
     />
   );
