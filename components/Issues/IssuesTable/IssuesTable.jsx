@@ -12,7 +12,7 @@ import { BsCheckCircleFill, BsFillPencilFill, BsEyeFill } from 'react-icons/bs';
 
 import { BasicButton } from 'generalStyledComponents/Button';
 import { getAllOrganizationIssues } from 'services/issues';
-import closeIssue from 'utils/closeIssue';
+import { closeIssue } from 'services/issues';
 
 
 const IssuesTable = ({ modalVisibility, currentFilter }) => {
@@ -23,7 +23,7 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
 
   const [allIssues, setAllIssues] = useState([]);
   const [issues, setIssues] = useState([]);
-  const [isOpenCloseIssueDialog, setIsOpenCloseIssueDialog] = useState([]);
+  const [isOpenCloseIssueDialog, setIsOpenCloseIssueDialog] = useState(false);
 
   const fetchIssues = async () => {
     if(session?.user?.organization){
@@ -123,7 +123,22 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
 
                 <Stack direction="row">
                   <Stack direction="row" spacing={1}>
-                    <BasicButton onClick={() => {closeIssue(params.row);}} >Confirm</BasicButton>
+                    <BasicButton onClick={() => {
+                      closeIssue(params.row.id).then((res) => {
+                        const issueIndex = allIssues.findIndex((issue) => issue.id === params.row.id);
+
+                        if (issueIndex !== -1) {
+                          const updatedIssues = [...allIssues];
+                          updatedIssues[issueIndex] = {
+                            ...updatedIssues[issueIndex],
+                            ticketStatus: res.data.ticketStatus,
+                          };
+
+                          setAllIssues(updatedIssues);
+                        }
+
+                        setIsOpenCloseIssueDialog(false);                      });
+                    }} >Confirm</BasicButton>
                   </Stack>
                   <Stack direction="row" spacing={1}>
                     <BasicButton onClick={() => { setIsOpenCloseIssueDialog(false); }} >Close</BasicButton>
