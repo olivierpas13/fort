@@ -12,7 +12,10 @@ import { BsCheckCircleFill, BsFillPencilFill, BsEyeFill } from 'react-icons/bs';
 
 import { BasicButton } from 'generalStyledComponents/Button';
 import { getAllOrganizationIssues } from 'services/issues';
-import { closeIssue } from 'services/issues';
+import { closeIssue, editIssue } from 'services/issues';
+import EditIssueModal from '../EditIssueModal/EditIssueModa.';
+import DetailedIssueModal from '../DetailedIssueModal/DetailedIssueModal';
+import handleIssueUpdated from 'utils/handleIssueUpdated';
 
 
 const IssuesTable = ({ modalVisibility, currentFilter }) => {
@@ -24,6 +27,9 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
   const [allIssues, setAllIssues] = useState([]);
   const [issues, setIssues] = useState([]);
   const [isOpenCloseIssueDialog, setIsOpenCloseIssueDialog] = useState(false);
+  const [isOpenDetailedIssue, setIsOpenDetailedIssue] = useState(false);
+  const [isOpenEditIssue, setIsOpenEditIssue] = useState(false);
+  const [detailedIssue, setDetailedIssue] = useState({});
 
   const fetchIssues = async () => {
     if(session?.user?.organization){
@@ -32,18 +38,14 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
     }
   };
 
+  console.log(isOpenDetailedIssue);
+
   useEffect(() => {
     if(
       allIssues.length < 1
       && session?.user?.organization
       || modalVisibility === false ){
       fetchIssues();
-      // if(currentFilter !== 'all'){
-      //   setIssues(allIssues.filter(issue => issue.ticketStatus === currentFilter));
-      // }
-      // if(currentFilter === 'all'){
-      //   setIssues(allIssues);
-      // }
     }
     // // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisibility, session?.user?.organization]);
@@ -112,8 +114,32 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
         <>{
           <div>
             <BsCheckCircleFill onClick={() => {setIsOpenCloseIssueDialog(true);}} />
-            <BsFillPencilFill/>
-            <BsEyeFill/>
+            <BsFillPencilFill onClick={() => {
+              setDetailedIssue(params.row);
+              setIsOpenEditIssue(true);
+            }} />
+            <BsEyeFill onClick={() => {
+              setDetailedIssue(params.row);
+              setIsOpenDetailedIssue(true);
+            }} />
+            {isOpenDetailedIssue && detailedIssue.id === params.row.id && (
+              <DetailedIssueModal
+                open={isOpenDetailedIssue}
+                handleClose={() => setIsOpenDetailedIssue(false)}
+                selectedIssue={params.row}
+              />
+            )}
+            {isOpenEditIssue && detailedIssue.id === params.row.id && (
+              <EditIssueModal
+                issue={params.row}
+                editIssue={editIssue}
+                open={isOpenEditIssue}
+                setOpen={setIsOpenEditIssue}
+                onIssueUpdated={handleIssueUpdated}
+                allIssues={allIssues}
+                setAllIssues={setAllIssues}
+              />
+            )}
             <Dialog open={isOpenCloseIssueDialog}  onClose={() => {setIsOpenCloseIssueDialog(false);}}>
               <DialogTitle><b>Close Issue Confirmation</b></DialogTitle>
               <DialogContent>
@@ -125,19 +151,13 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
                   <Stack direction="row" spacing={1}>
                     <BasicButton onClick={() => {
                       closeIssue(params.row.id).then((res) => {
-                        const issueIndex = allIssues.findIndex((issue) => issue.id === params.row.id);
-
-                        if (issueIndex !== -1) {
-                          const updatedIssues = [...allIssues];
-                          updatedIssues[issueIndex] = {
-                            ...updatedIssues[issueIndex],
-                            ticketStatus: res.data.ticketStatus,
-                          };
-
-                          setAllIssues(updatedIssues);
-                        }
-
-                        setIsOpenCloseIssueDialog(false);                      });
+                        handleIssueUpdated({
+                          updatedIssue: res.data,
+                          allIssues,
+                          setAllIssues,
+                        });
+                        setIsOpenCloseIssueDialog(false);
+                      });
                     }} >Confirm</BasicButton>
                   </Stack>
                   <Stack direction="row" spacing={1}>
