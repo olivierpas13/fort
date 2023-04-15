@@ -28,7 +28,7 @@ const DetailedIssueModal = ({ selectedIssue, open, handleClose }) => {
           <Chip className="priority-chip" label={selectedIssue.priority} size="small" variant="outlined" color={getPriorityColor(selectedIssue.priority)}/>
           <br />
           <p className="description" >
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id necessitatibus modi similique dignissimos voluptatum eum optio saepe soluta sint accusamus enim odit aut aliquid nostrum, earum sequi dolorum pariatur libero. Error, nemo veniam enim, porro nisi provident, aspernatur voluptate nostrum accusamus ipsam quos magni tempore asperiores! Natus accusantium iste adipisci.
+            {selectedIssue.description}
           </p>
           <Chip className="dev-chip" icon={<BiCodeAlt size={'1.8em'} />} label={selectedIssue.assignedDev} variant="outlined" />
           <Chip icon={<BiPen size={'1.8em'}/>}  label={selectedIssue.submitter} variant="outlined" />
