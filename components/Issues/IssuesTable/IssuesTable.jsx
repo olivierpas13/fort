@@ -8,11 +8,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 import { DataGrid, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { useSession } from 'next-auth/react';
-import { BsCheckCircleFill, BsFillPencilFill, BsEyeFill } from 'react-icons/bs';
+import { BsCheckCircleFill, BsFillPencilFill, BsEyeFill, BsFillTrashFill } from 'react-icons/bs';
 
 import { BasicButton } from 'generalStyledComponents/Button';
 import { getAllOrganizationIssues } from 'services/issues';
-import { closeIssue, editIssue } from 'services/issues';
+import { closeIssue, editIssue, deleteIssue } from 'services/issues';
 import EditIssueModal from '../EditIssueModal/EditIssueModa.';
 import DetailedIssueModal from '../DetailedIssueModal/DetailedIssueModal';
 import handleIssueUpdated from 'utils/handleIssueUpdated';
@@ -27,9 +27,10 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
   const [allIssues, setAllIssues] = useState([]);
   const [issues, setIssues] = useState([]);
   const [isOpenCloseIssueDialog, setIsOpenCloseIssueDialog] = useState(false);
+  const [isOpenDeleteIssueDialog, setIsOpenDeleteIssueDialog] = useState(false);
   const [isOpenDetailedIssue, setIsOpenDetailedIssue] = useState(false);
   const [isOpenEditIssue, setIsOpenEditIssue] = useState(false);
-  const [detailedIssue, setDetailedIssue] = useState({});
+  const [selectedIssue, setSelectedIssue] = useState({});
 
   const fetchIssues = async () => {
     if(session?.user?.organization){
@@ -38,7 +39,6 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
     }
   };
 
-  console.log(isOpenDetailedIssue);
 
   useEffect(() => {
     if(
@@ -113,15 +113,21 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
       renderCell: (params) => (
         <>{
           <div>
-            <BsCheckCircleFill onClick={() => {setIsOpenCloseIssueDialog(true);}} />
+            <BsCheckCircleFill onClick={() => {
+              setSelectedIssue(params.row);
+              setIsOpenCloseIssueDialog(true);}} />
             <BsFillPencilFill onClick={() => {
-              setDetailedIssue(params.row);
+              setSelectedIssue(params.row);
               setIsOpenEditIssue(true);
             }} />
             <BsEyeFill onClick={() => {
-              setDetailedIssue(params.row);
+              setSelectedIssue(params.row);
               setIsOpenDetailedIssue(true);
             }} />
+            <BsFillTrashFill onClick={() => {
+              setSelectedIssue(params.row);
+              setIsOpenDeleteIssueDialog(true);}} />
+
             {isOpenDetailedIssue && detailedIssue.id === params.row.id && (
               <DetailedIssueModal
                 open={isOpenDetailedIssue}
@@ -140,32 +146,59 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
                 setAllIssues={setAllIssues}
               />
             )}
-            <Dialog open={isOpenCloseIssueDialog}  onClose={() => {setIsOpenCloseIssueDialog(false);}}>
-              <DialogTitle><b>Close Issue Confirmation</b></DialogTitle>
+            {isOpenCloseIssueDialog && selectedIssue.id === params.row.id &&
+             (<Dialog open={isOpenCloseIssueDialog}  onClose={() => {setIsOpenCloseIssueDialog(false);}}>
+               <DialogTitle><b>Close Issue Confirmation</b></DialogTitle>
+               <DialogContent>
+                 <DialogContentText>
+                  Are you sure you want to close the issue <b>{params.row.title}</b>
+                 </DialogContentText>
+                 <Stack direction="row">
+                   <Stack direction="row" spacing={1}>
+                     <BasicButton onClick={() => {
+                       closeIssue(params.row.id).then((res) => {
+                         handleIssueUpdated({
+                           updatedIssue: res.data,
+                           allIssues,
+                           setAllIssues,
+                         });
+                         setIsOpenCloseIssueDialog(false);
+                       });
+                     }} >Confirm</BasicButton>
+                   </Stack>
+                   <Stack direction="row" spacing={1}>
+                     <BasicButton onClick={() => { setIsOpenCloseIssueDialog(false); }} >Close</BasicButton>
+                   </Stack>
+                 </Stack>
+               </DialogContent>
+             </Dialog>)}
+            {isOpenDeleteIssueDialog && selectedIssue.id === params.row.id &&
+            (<Dialog open={isOpenDeleteIssueDialog}  onClose={() => {setIsOpenDeleteIssueDialog(false);}}>
+              <DialogTitle><b>Delete Issue Confirmation</b></DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to close the issue <b>{params.row.title}</b>
+                  Are you sure you want to delete the issue <b>{params.row.title}</b>
                 </DialogContentText>
-
                 <Stack direction="row">
                   <Stack direction="row" spacing={1}>
                     <BasicButton onClick={() => {
-                      closeIssue(params.row.id).then((res) => {
+                      deleteIssue(params.row.id).then(() => {
                         handleIssueUpdated({
-                          updatedIssue: res.data,
+                          updatedIssue: params.row,
                           allIssues,
                           setAllIssues,
+                          isDelete: true,
                         });
-                        setIsOpenCloseIssueDialog(false);
+                        setIsOpenDeleteIssueDialog(false);
                       });
                     }} >Confirm</BasicButton>
                   </Stack>
                   <Stack direction="row" spacing={1}>
-                    <BasicButton onClick={() => { setIsOpenCloseIssueDialog(false); }} >Close</BasicButton>
+                    <BasicButton onClick={() => { setIsOpenDeleteIssueDialog(false); }} >Close</BasicButton>
                   </Stack>
                 </Stack>
               </DialogContent>
-            </Dialog>
+            </Dialog>)}
           </div>
         }</>
       )
