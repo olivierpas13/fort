@@ -125,7 +125,6 @@ const DetailedProject = () => {
   if (!isEmpty(project)) {
     const { status, priority } = countIssues(project.issues);
     const weeklyIssues = organizeIssuesByDay(project.issues);
-    console.log(project.issues);
     return (
       <StyledDetailedProject>
         <Breadcrumbs aria-label="breadcrumb">
@@ -206,7 +205,7 @@ const DetailedProject = () => {
                     <DetailedIssueModal
                       open={openRecentIssue}
                       handleClose={() => setOpenRecentIssue(false)}
-                      recentIssue={recentIssue}
+                      selectedIssue={recentIssue}
                     />
                   </>
 
