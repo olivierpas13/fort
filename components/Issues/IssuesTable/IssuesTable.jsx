@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -60,6 +60,12 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
     }
   }, [allIssues, currentFilter]);
 
+  const actionButtonStyles = {
+    marginRight: '10px',
+    cursor: 'pointer',
+  };
+
+
   const columns = [
     {
       field: 'id',
@@ -77,13 +83,13 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
     {
       field: 'priority',
       headerName: 'Priority',
-      flex: 1,
+      flex: 0.5,
       renderCell: (params) => <>{params.value}</>
     },
     {
       field: 'ticketStatus',
       headerName: 'Status',
-      flex: 1,
+      flex: 0.5,
       renderCell: (params) => <>{params.value}</>
     },
     {
@@ -108,34 +114,68 @@ const IssuesTable = ({ modalVisibility, currentFilter }) => {
       field: 'actions',
       type: 'actions',
       sortable: false,
-      headerName: '',
-      width: 100,
+      headerName: 'Actions',
+      width: 170,
       renderCell: (params) => (
         <>{
           <div>
-            <BsCheckCircleFill onClick={() => {
-              setSelectedIssue(params.row);
-              setIsOpenCloseIssueDialog(true);}} />
-            <BsFillPencilFill onClick={() => {
-              setSelectedIssue(params.row);
-              setIsOpenEditIssue(true);
-            }} />
-            <BsEyeFill onClick={() => {
-              setSelectedIssue(params.row);
-              setIsOpenDetailedIssue(true);
-            }} />
-            <BsFillTrashFill onClick={() => {
-              setSelectedIssue(params.row);
-              setIsOpenDeleteIssueDialog(true);}} />
+            <Tooltip title="Close Issue">
+              <span>
+                <BsCheckCircleFill
+                  style={actionButtonStyles}
+                  size={19}
+                  onClick={() => {
+                    setSelectedIssue(params.row);
+                    setIsOpenCloseIssueDialog(true);
+                  }}
+                />
+              </span>
+            </Tooltip>
+            <Tooltip title="Edit Issue">
+              <span>
+                <BsFillPencilFill
+                  style={actionButtonStyles}
+                  size={19}
+                  onClick={() => {
+                    setSelectedIssue(params.row);
+                    setIsOpenEditIssue(true);
+                  }}
+                />
+              </span>
+            </Tooltip>
+            <Tooltip title="View Issue Details">
+              <span>
+                <BsEyeFill
+                  style={actionButtonStyles}
+                  size={19}
+                  onClick={() => {
+                    setSelectedIssue(params.row);
+                    setIsOpenDetailedIssue(true);
+                  }}
+                />
+              </span>
+            </Tooltip>
+            <Tooltip title="Delete Issue">
+              <span>
+                <BsFillTrashFill
+                  style={actionButtonStyles}
+                  size={19}
+                  onClick={() => {
+                    setSelectedIssue(params.row);
+                    setIsOpenDeleteIssueDialog(true);
+                  }}
+                />
+              </span>
+            </Tooltip>
 
-            {isOpenDetailedIssue && detailedIssue.id === params.row.id && (
+            {isOpenDetailedIssue && selectedIssue.id === params.row.id && (
               <DetailedIssueModal
                 open={isOpenDetailedIssue}
                 handleClose={() => setIsOpenDetailedIssue(false)}
                 selectedIssue={params.row}
               />
             )}
-            {isOpenEditIssue && detailedIssue.id === params.row.id && (
+            {isOpenEditIssue && selectedIssue.id === params.row.id && (
               <EditIssueModal
                 issue={params.row}
                 editIssue={editIssue}
