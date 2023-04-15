@@ -7,7 +7,7 @@ import { BiCodeAlt, BiPen } from 'react-icons/bi/';
 
 import StyledDetailedIssueModal from './StyledDetailedIssueModal';
 
-const DetailedIssueModal = ({ recentIssue, open, handleClose }) => {
+const DetailedIssueModal = ({ selectedIssue, open, handleClose }) => {
 
   return (
     <Modal
@@ -19,19 +19,19 @@ const DetailedIssueModal = ({ recentIssue, open, handleClose }) => {
       <StyledDetailedIssueModal>
         <Box className="modal-content">
           <Typography variant="h4" component="div">
-            {recentIssue.title}
+            {selectedIssue.title}
           </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          ID {recentIssue.id}
+          ID {selectedIssue.id}
           </Typography>
-          <Chip className="status-chip" label={recentIssue.ticketStatus} size="small" variant="outlined" color={recentIssue.ticketStatus === 'open'? 'error': 'success'} />
-          <Chip className="priority-chip" label={recentIssue.priority} size="small" variant="outlined" color={getPriorityColor(recentIssue.priority)}/>
+          <Chip className="status-chip" label={selectedIssue.ticketStatus} size="small" variant="outlined" color={selectedIssue.ticketStatus === 'open'? 'error': 'success'} />
+          <Chip className="priority-chip" label={selectedIssue.priority} size="small" variant="outlined" color={getPriorityColor(selectedIssue.priority)}/>
           <br />
           <p className="description" >
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id necessitatibus modi similique dignissimos voluptatum eum optio saepe soluta sint accusamus enim odit aut aliquid nostrum, earum sequi dolorum pariatur libero. Error, nemo veniam enim, porro nisi provident, aspernatur voluptate nostrum accusamus ipsam quos magni tempore asperiores! Natus accusantium iste adipisci.
+            {selectedIssue.description}
           </p>
-          <Chip className="dev-chip" icon={<BiCodeAlt size={'1.8em'} />} label={recentIssue.assignedDev} variant="outlined" />
-          <Chip icon={<BiPen size={'1.8em'}/>}  label={recentIssue.submitter} variant="outlined" />
+          <Chip className="dev-chip" icon={<BiCodeAlt size={'1.8em'} />} label={selectedIssue.assignedDev} variant="outlined" />
+          <Chip icon={<BiPen size={'1.8em'}/>}  label={selectedIssue.submitter} variant="outlined" />
 
         </Box>
       </StyledDetailedIssueModal>
