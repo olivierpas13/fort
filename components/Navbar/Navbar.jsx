@@ -5,9 +5,9 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import Menu from '@mui/material/Menu';
