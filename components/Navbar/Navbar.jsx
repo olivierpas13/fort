@@ -188,7 +188,7 @@ const NavBar = () => {
               {session?.user ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar sx={{ bgcolor: mainColor }} variant="rounded">
+                    <Avatar sx={{ bgcolor: 'primary' }} variant="rounded">
                       {initials}
                     </Avatar>
                   </IconButton>
