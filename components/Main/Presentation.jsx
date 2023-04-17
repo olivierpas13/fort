@@ -1,53 +1,77 @@
-import Link from 'next/link';
-import MainSection from './styledPresentation';
+import Image from 'next/image';
+
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import Button from '@mui/material/Button';
+
+import { mainTheme } from 'generalStyledComponents/Pallete';
 
 const Presentation = () => {
   return (
-    <MainSection>
-      <div className='main-text'>
-        <h3>
-            Don&apos;t let errors control your app,
-        </h3>
-        <h3>
-            Control them with Fort
-        </h3>
-      </div>
-      <Link href={'/registration'} >
-        <a className='try-button'>
-          Try it out for free
-        </a>
-      </Link>
-    </MainSection>
+    <ThemeProvider theme={mainTheme}>
+      <Box
+        style={{
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 5%'
+        }}
+        sx={{
+          flex: 1,
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          backgroundImage: `url(${'/bg1.webp'})`,
+          gap: 2,
+          textAlign: 'center',
+        }}
+      >
+        <Box
+          sx={{
+            color: '#ffff',
+            fontWeight: 600,
+            fontSize: 'sm',
+            textTransform: 'uppercase',
+            letterSpacing: 0.5,
+          }}
+        >
+          Bug Tracking Software
+        </Box>
+        <div
+          style={{
+            display: 'block',
+            position: 'relative',
+            width: '30em',
+            height: '10em',
+            marginRight: '1em',
+          }}
+        >
+          <Image
+            layout="fill"
+            src="/fort-logo-white.svg"
+            quality={100}
+            alt="Fort Logo"
+          />
+        </div>
+        <Typography
+          sx={{
+            fontSize: 'lg',
+            color: '#ffff',
+            maxWidth: '54ch',
+          }}
+        >
+          Don&apos;t let errors control you, control them with Fort
+        </Typography>
+        <Button
+          style={{ marginTop: '2em', padding: '1em', fontSize: '1.2em' }}
+          variant="contained"
+        >
+          Get Started
+        </Button>
+      </Box>
+    </ThemeProvider>
   );
 };
 
 export default Presentation;
-
-
-// import Link from 'next/link';
-// import MainSection from './styledPresentation';
-// import { MainColorText } from '../../generalStyledComponents/Text';
-
-// const Presentation = () => {
-//   return (
-//     <MainSection>
-//       <div className='main-text'>
-//         <h3>
-//             Don&apos;t let errors control your app,
-//         </h3>
-//         <h3>
-//             Control them with Fort
-//         </h3>
-//       </div>
-//       <Link href={'/registration'} >
-//         <div className='try-button' >
-//           <a>
-//             Try it out for free
-//           </a>
-//         </div>
-//       </Link>
-//     </MainSection>
-//   );
-// };
-
-// export default Presentation;
