@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -25,7 +25,7 @@ import { BasicButton } from 'generalStyledComponents/Button';
 import getInitials from 'utils/getInitials';
 
 const pages = ['Docs', 'Features', 'Sandbox'];
-const settings = ['Profile', 'Dashboard', 'Logout'];
+const settings = ['Dashboard', 'Logout'];
 
 const NavBar = () => {
   const { data: session } = useSession();
@@ -33,10 +33,15 @@ const NavBar = () => {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [initials, setInitials] = useState('');
 
-  if (session?.user) {
-    const initials = getInitials(session.user?.name);
-  }
+  useEffect(() => {
+    if (session?.user) {
+      setInitials(getInitials(session?.user?.name));
+    }
+
+  }, [session?.user]);
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -49,7 +54,17 @@ const NavBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
+    console.log(setting);
+    if(setting === 'logout'){
+      signOut();
+      setAnchorElUser(null);
+    }
+    if(setting === 'dashboard'){
+      router.push(`/organizations/${session.user.organization}/dashboard`);
+      setAnchorElUser(null);
+    }
+
     setAnchorElUser(null);
   };
 
@@ -186,13 +201,18 @@ const NavBar = () => {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ flexGrow: 0 }}>
               {session?.user ? (
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar sx={{ bgcolor: 'primary' }} variant="rounded">
-                      {initials}
-                    </Avatar>
-                  </IconButton>
-                </Tooltip>
+                <Box style={{ display: 'flex' }} >
+                  <Typography sx={{ fontSize: 17, padding: '1em' }} color="secondary" >
+                    Logged in
+                  </Typography>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar sx={{ bgcolor: 'primary.main' }} variant="rounded">
+                        {initials}
+                      </Avatar>
+                    </IconButton>
+                  </Tooltip>
+                </Box>
               ) : (
                 <Stack
                   direction="row"
@@ -233,11 +253,21 @@ const NavBar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                <Link href={`/organizations/${session?.user?.organization}/dashboard`}>
+                  <MenuItem>
+                    <a>
+                      <Typography sx={{ fontSize: 14 }} color={'primary'}y>
+
+                  DASHBOARD
+                      </Typography>
+                    </a>
                   </MenuItem>
-                ))}
+                </Link>
+                <MenuItem>
+                  <Button onClick={() => {signOut();}}>
+                Logout
+                  </Button>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
