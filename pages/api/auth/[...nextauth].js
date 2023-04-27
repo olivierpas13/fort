@@ -4,8 +4,9 @@ import clientPromise from '../../../lib/mongodb';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+import { updateUserOrganization } from 'services/users';
 import login from 'services/login';
-import { getIndividualUser } from 'services/users';
+import { addUserFromGit, getIndividualUser } from 'services/users';
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -18,8 +19,8 @@ export const authOptions = {
 
       token.user = {
         ...token.user,
-        organizationId: userFromDB.organizationId,
-        role: userFromDB.role,
+        organization: userFromDB?.organization,
+        role: userFromDB?.role,
         project: userFromDB?.project,
       };
 

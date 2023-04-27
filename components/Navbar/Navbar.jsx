@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signOut, signIn } from 'next-auth/react';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,7 +21,6 @@ import Button from '@mui/material/Button';
 import { GiHamburgerMenu } from 'react-icons/gi';
 
 import { mainTheme } from 'generalStyledComponents/Pallete';
-import { BasicButton } from 'generalStyledComponents/Button';
 import getInitials from 'utils/getInitials';
 
 const pages = ['Docs', 'Features', 'Sandbox'];
@@ -224,7 +223,11 @@ const NavBar = () => {
                     marginRight: '3em',
                   }}
                 >
-                  <Button color="primary" variant="outlined">
+                  <Button
+                    onClick={() => {
+                      router.push('/login');
+                    }}
+                    color="primary" variant="outlined">
                     Login
                   </Button>
                   <Button
