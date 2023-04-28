@@ -13,6 +13,10 @@ export const getIndividualUser = async (id) => {
   return await axios.get(`${baseUrl}/${id}`);
 };
 
+export const getUserByGithubId = async (id) => {
+  return await axios.get(`${baseUrl}/github-user/${id}`);
+};
+
 export const updateUserOrganization = async (data) => {
   return await axios.patch(`${baseUrl}/${data.userId}`, data);
 };

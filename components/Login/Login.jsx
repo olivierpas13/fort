@@ -19,9 +19,10 @@ const Login= () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    signIn('credentials', {
       email: data.get('email'),
       password: data.get('password'),
+      callbackUrl: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/registration`
     });
   };
 
@@ -120,7 +121,7 @@ const Login= () => {
                   <Button
                     fullWidth
                     onClick={() => {
-                      signIn('github');
+                      signIn();
                     }}
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}

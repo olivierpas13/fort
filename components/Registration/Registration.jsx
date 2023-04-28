@@ -25,6 +25,7 @@ const Registration = () => {
 
   const router = useRouter();
 
+  console.log(session);
 
   useEffect(() => {
     if((session.status === 'authenticated') && !session?.data?.user?.organization){
@@ -52,7 +53,6 @@ const Registration = () => {
       organization: data.get('organization'),
       organizationCode: data.get('organizationCode'),
     });
-    console.log(user);
     if (user) {
       signIn('credentials', {
         email: data.get('email'),
@@ -62,16 +62,6 @@ const Registration = () => {
       return;
     }
     alert('Unable to create the account');
-  };
-
-  const handleGitHubSignIn = async () => {
-    // if (!organizationCode && !organizationName) {
-    //   alert('Please enter your organization ID or organization name');
-    //   return;
-    // }
-
-    // Pass the organizationId and organizationName as state parameters
-    await signIn('github');
   };
 
   return (
@@ -156,7 +146,6 @@ const Registration = () => {
                       id="organization"
                       label="Organization"
                       name="organization"
-                      autoComplete="organization"
                       autoFocus
                     />
                   )}
@@ -181,7 +170,6 @@ const Registration = () => {
                     id="name"
                     label="Name"
                     name="name"
-                    autoComplete="name"
                     autoFocus
                   />
                   <TextField
@@ -191,7 +179,6 @@ const Registration = () => {
                     id="email"
                     label="Email Address"
                     name="email"
-                    autoComplete="email"
                     autoFocus
                   />
                   <TextField
@@ -202,7 +189,6 @@ const Registration = () => {
                     label="Password"
                     type="password"
                     id="password"
-                    autoComplete="current-password"
                   />
                   <Button
                     type="submit"
@@ -216,8 +202,7 @@ const Registration = () => {
                   <Button
                     fullWidth
                     onClick={() => {
-                      handleGitHubSignIn();
-                      // signIn('github');
+                      signIn('github');
                     }}
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}

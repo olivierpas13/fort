@@ -1,17 +1,39 @@
 import NextAuth from 'next-auth';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import clientPromise from '../../../lib/mongodb';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
+// import fetch from 'node-fetch';
 
-import { updateUserOrganization } from 'services/users';
+
+import clientPromise from '../../../lib/mongodb';
 import login from 'services/login';
-import { addUserFromGit, getIndividualUser } from 'services/users';
+import { getIndividualUser, getUserByGithubId } from 'services/users';
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    async jwt({ token, user }) {
+    signIn: async (profile,) => {
+      // console.log({ profile });
+      const { account, user } = profile;
+      if (account.provider === 'github') {
+        const existingUser = await getUserByGithubId(user?.id);
+        console.log(existingUser);
+        if (existingUser) {
+          return existingUser;
+        }
+        const newUser ={
+          name: user.name,
+          githubId: user.id,
+        };
+
+        profile.user = newUser;
+        console.log(profile.user);
+        // If no existing user, create a new one
+        return true;
+      }},
+    async jwt({ token, user, profile, ...rest }) {
+
+      // console.log({ token });
 
       user && (token.user = user);
 
@@ -20,6 +42,7 @@ export const authOptions = {
       token.user = {
         ...token.user,
         organization: userFromDB?.organization,
+        githubId: profile?.id,
         role: userFromDB?.role,
         project: userFromDB?.project,
       };
