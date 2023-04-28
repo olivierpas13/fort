@@ -25,8 +25,6 @@ const Registration = () => {
 
   const router = useRouter();
 
-  console.log(session);
-
   useEffect(() => {
     if((session.status === 'authenticated') && !session?.data?.user?.organization){
       return setOrganizationFieldDialogVisibility(true);

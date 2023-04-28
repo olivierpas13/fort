@@ -77,7 +77,6 @@ const OrganizationFieldDialog = ({ open }) => {
             label="Organization"
             value={organization}
             onChange={(e) => {
-              console.log(e.target.value);
               setOrganization(e.target.value);}}
             name="organization"
             autoFocus

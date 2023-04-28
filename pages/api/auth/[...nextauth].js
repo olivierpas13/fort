@@ -2,7 +2,6 @@ import NextAuth from 'next-auth';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
-// import fetch from 'node-fetch';
 
 
 import clientPromise from '../../../lib/mongodb';
@@ -13,7 +12,6 @@ export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     signIn: async (profile,) => {
-      // console.log({ profile });
       const { account, user } = profile;
       if (account.provider === 'github') {
         const existingUser = await getUserByGithubId(user?.id);
@@ -33,7 +31,6 @@ export const authOptions = {
       }},
     async jwt({ token, user, profile, ...rest }) {
 
-      // console.log({ token });
 
       user && (token.user = user);
 
